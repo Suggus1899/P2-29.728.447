@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traducciones</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Traducción de documentos</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/about">Sobre nosotros</a></li>
+                <li><a href="/services">Servicios</a></li>
+                <li><a href="/traductions">Traducciones</a></li>
+                <li><a href="/contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="traductions-intro">
+            <h2>Convierte tu documento en cualquier idioma</h2>
+            <p>Sube tu archivo, selecciona el idioma de destino y obtén una traducción rápida y precisa.</p>
+        </section>
+
+        <section class="upload-section">
+            <h2>Sube tu documento</h2>
+            <form action="/translate" method="POST" enctype="multipart/form-data">
+                <label for="document">Selecciona el archivo:</label>
+                <input type="file" id="document" name="document" accept=".pdf,.docx,.txt" required>
+
+                <label for="language">Selecciona el idioma de destino:</label>
+                <input type="text" id="languageInput" name="language" list="languages" placeholder="Escribe un idioma..." required>
+                <datalist id="languages">
+                    <option value="Español">
+                    <option value="Inglés">
+                    <option value="Francés">
+                    <option value="Alemán">
+                    <option value="Italiano">
+                    <option value="Chino">
+                    <option value="Portugués">
+                    <option value="Japonés">
+                    <option value="Coreano">
+                    <option value="Ruso">
+                </datalist>
+
+                <button type="submit">Traducir ahora</button>
+            </form>
+        </section>
+
+        <section class="translation-benefits">
+            <h2>¿Por qué usar LoveDoc?</h2>
+            <ul>
+                <li>✅ Traducción precisa con IA avanzada</li>
+                <li>🚀 Rápido y seguro</li>
+                <li>🌎 Compatible con múltiples idiomas</li>
+                <li>📂 Soporte para formatos PDF, DOCX y TXT</li>
+            </ul>
+        </section>
+
+        <section class="recent-translations">
+            <h2>Traducciones recientes</h2>
+            <div class="translation-example">
+                <p><strong>Documento:</strong> Manual técnico</p>
+                <p><strong>Idioma origen:</strong> Inglés</p>
+                <p><strong>Idioma destino:</strong> Español</p>
+                <a href="/download/example1">Descargar traducción</a>
+            </div>
+            <div class="translation-example">
+                <p><strong>Documento:</strong> Informe de negocios</p>
+                <p><strong>Idioma origen:</strong> Francés</p>
+                <p><strong>Idioma destino:</strong> Inglés</p>
+                <a href="/download/example2">Descargar traducción</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

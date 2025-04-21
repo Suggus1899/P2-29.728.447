@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a LoveDoc</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/about">Sobre nosotros</a></li>
+                <li><a href="/services">Servicios</a></li>
+                <li><a href="/traductions">Traducciones</a></li>
+                <li><a href="/contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Sección HERO -->
+        <section class="hero">
+            <h2>Traducción de documentos rápida y eficiente</h2>
+            <p>Convierte cualquier documento en el idioma que necesites, con precisión y calidad.</p>
+            <a href="/traductions" class="button">Comenzar</a>
+        </section>
+
+        <!-- ¿Cómo funciona LoveDoc? -->
+        <section class="how-it-works">
+            <h2>¿Cómo funciona LoveDoc?</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3>📂 1. Carga tu documento</h3>
+                    <p>Sube el archivo que deseas traducir en el formato admitido.</p>
+                </div>
+                <div class="step">
+                    <h3>🌍 2. Selecciona el idioma</h3>
+                    <p>Elige el idioma de destino y personaliza las opciones.</p>
+                </div>
+                <div class="step">
+                    <h3>🚀 3. Obtén tu traducción</h3>
+                    <p>Descarga el documento traducido con calidad profesional.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planes y precios -->
+        <section class="pricing">
+            <h2>Planes y Precios</h2>
+            <div class="plans">
+                <div class="plan">
+                    <h3>🔹 Básico</h3>
+                    <p>Traducción estándar, ideal para textos simples.</p>
+                    <p><strong>Gratis</strong></p>
+                </div>
+                <div class="plan">
+                    <h3>⚡ Avanzado</h3>
+                    <p>Traducción técnica y especializada.</p>
+                    <p><strong>$9.99 por documento</strong></p>
+                </div>
+                <div class="plan">
+                    <h3>🏆 Premium</h3>
+                    <p>Traducción con revisión humana y certificación.</p>
+                    <p><strong>$29.99 por documento</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estadísticas -->
+        <section class="stats">
+            <h2>Impacto de LoveDoc</h2>
+            <div class="stats-box">
+                <div>
+                    <h3>🌍 +50 Idiomas soportados</h3>
+                    <p>Traducción precisa para todos los idiomas populares.</p>
+                </div>
+                <div>
+                    <h3>📄 +500K Documentos traducidos</h3>
+                    <p>Clientes satisfechos de todo el mundo.</p>
+                </div>
+                <div>
+                    <h3>🕒 95% Ahorro de tiempo</h3>
+                    <p>Comparado con traducciones manuales.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preguntas frecuentes (FAQ) -->
+        <section class="faq">
+            <h2>Preguntas frecuentes</h2>
+            <div class="faq-item">
+                <h3>¿LoveDoc traduce archivos PDF?</h3>
+                <p>Sí, puedes subir archivos en formato PDF, DOCX y TXT.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Qué idiomas están disponibles?</h3>
+                <p>Soportamos más de 50 idiomas, incluyendo inglés, español, francés y chino.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Cómo se garantiza la precisión?</h3>
+                <p>Usamos tecnología avanzada y revisión humana en los planes premium.</p>
+            </div>
+        </section>
+
+        <!-- Formulario de contacto -->
+        <section class="contact">
+            <h2>Contáctanos</h2>
+            <form action="/contact" method="POST">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Mensaje:</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
