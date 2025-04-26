@@ -2,7 +2,7 @@
   "name": "p2-29.728.447",
   "version": "1.0.0",
   "description": "Esta es una aplicación web sencilla desarrollada con **TypeScript** y **Express**, desplegada en **Render.com**. La aplicación muestra un mensaje de \"Hola Mundo\" acompañado de información personal.",
-  "main": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
