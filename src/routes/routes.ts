@@ -16,7 +16,7 @@ pages.forEach((page) => {
 // Rutas de contacto
 router.get('/contact', ContactsController.contactPage); // Muestra el formulario
 // Usa el spread operator para descomponer el middleware y evitar el error de tipado
-router.post('/contact/add', validateContactMiddleware, ContactsController.add); // Procesa el formulario con validación
+router.post('/contact/add', ...validateContactMiddleware, ContactsController.add); // Procesa el formulario con validación
 
 // Ruta de administración para ver contactos almacenados
 router.get('/admin/contacts', ContactsController.index);
