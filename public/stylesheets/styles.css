@@ -1,7 +1,7 @@
-/* Importar fuente Poppins */
+/* ✅ Importar fuente Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Reset básico */
+/* ✅ Reset básico */
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +9,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* 🔥 Paleta de colores */
+/* Paleta de colores */
 :root {
     --color1: #444444;
     --color2: #fcf7d1;
@@ -64,7 +64,7 @@ nav ul a:hover {
     background-color: var(--color4);
 }
 
-/*Secciones */
+/* Secciones */
 section {
     padding: 2rem;
     max-width: 800px;
@@ -93,6 +93,79 @@ section {
     transform: scale(1.05);
 }
 
+/* Estilos del formulario (contact.ejs) */
+.contact-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Campos de entrada */
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid var(--color3);
+    border-radius: 5px;
+}
+
+/* Botón de enviar */
+.contact-form button {
+    width: 100%;
+    background-color: var(--color5);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: var(--color4);
+}
+
+/* Mensaje de éxito */
+.success {
+    color: var(--color5);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Tabla de administración (admin/contacts.ejs) */
+.admin-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Celdas */
+.admin-table th, .admin-table td {
+    padding: 12px;
+    border: 1px solid var(--color3);
+    text-align: center;
+}
+
+/* Encabezados */
+.admin-table th {
+    background: var(--color5);
+    color: white;
+    font-size: 1rem;
+}
+
+/* Efecto hover en filas */
+.admin-table tr:hover {
+    background-color: var(--color3);
+}
+
 /* Diseño Responsivo */
 @media (max-width: 768px) {
     nav ul {
@@ -107,6 +180,19 @@ section {
     .button {
         font-size: 0.9rem;
         padding: 10px 16px;
+    }
+
+    .contact-form {
+        max-width: 90%;
+    }
+
+    .admin-table {
+        width: 100%;
+    }
+
+    .admin-table th, .admin-table td {
+        font-size: 0.85rem;
+        padding: 8px;
     }
 }
 
@@ -128,8 +214,8 @@ section, .button {
 
 /* Estilos para el Footer */
 footer {
-    background-color: var(--color1); /* Color oscuro para contraste */
-    color: var(--color2); /* Texto en color claro */
+    background-color: var(--color1);
+    color: var(--color2);
     padding: 20px;
     text-align: center;
     font-size: 0.9rem;
@@ -137,10 +223,6 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
-}
-
-/* Efecto de sombra para destacar el footer */
-footer {
     box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -153,10 +235,10 @@ footer a {
 }
 
 footer a:hover {
-    color: var(--color4); /* Cambia a un tono más destacado */
+    color: var(--color4);
 }
 
-/* Diseño responsivo */
+/* esponsive para el footer */
 @media (max-width: 768px) {
     footer {
         font-size: 0.8rem;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - LoveDoc</title>
+    <link rel="stylesheet" href="/public/styles.css"> <!-- Estilos CSS -->
+</head>
+<body>
+    <header>
+        <h1>Contacto</h1>
+        <p>Déjanos tu mensaje y nos pondremos en contacto contigo.</p>
+    </header>
+
+    <main>
+        <% if (message) { %>
+            <p class="success"><%= message %></p> <!--  Mensaje de éxito -->
+        <% } %>
+
+        <form action="/contact/add" method="POST">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" name="email" id="email" required placeholder="Tu correo">
+
+            <label for="name">Nombre:</label>
+            <input type="text" name="name" id="name" required placeholder="Tu nombre">
+
+            <label for="lastname">Apellido:</label>
+            <input type="text" name="lastname" id="lastname" required placeholder="Tu apellido">
+
+            <label for="comment">Mensaje:</label>
+            <textarea name="comment" id="comment" required placeholder="Escribe tu mensaje"></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>LoveDoc © 2025 - Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

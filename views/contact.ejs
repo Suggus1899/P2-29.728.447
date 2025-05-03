@@ -3,53 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto</title>
-    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <title>Contacto - LoveDoc</title>
+    <link rel="stylesheet" href="/public/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Contáctanos</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/about">Sobre nosotro</a></li>
-                <li><a href="/services">Servicios</a></li>
-                <li><a href="/traductions">Traducciones</a></li>
-                <li><a href="/contact">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>Bienvenido a LoveDoc</h1>
+    
+    <p>LoveDoc es una plataforma para ayudar en traducciones y servicios lingüísticos.</p>
+    
+    <!-- FORMULARIO DE CONTACTO INTEGRADO -->
+    <section>
+        <h2>Contáctanos</h2>
+        <form action="/contact/add" method="POST">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
 
-    <main>
-        <section class="contact-info">
-            <h2>¿Tienes preguntas o sugerencias?</h2>
-            <p>Ponte en contacto con nosotros y te responderemos lo antes posible.</p>
-            <ul>
-                <li>📧 Email: soporte@lovedoc.com</li>
-                <li>📞 Teléfono: +58 123 456 7890</li>
-                <li>📍 Dirección: Caracas, Venezuela</li>
-            </ul>
-        </section>
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
 
-        <section class="contact-form">
-            <h2>Envía tu mensaje</h2>
-            <form action="/contact" method="POST">
-                <label for="name">Nombre:</label>
-                <input type="text" id="name" name="name" required>
-                
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required>
+            <label for="comment">Comentario:</label>
+            <textarea id="comment" name="comment" required></textarea>
 
-                <label for="message">Mensaje:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
 
-                <button type="submit">Enviar mensaje</button>
-            </form>
-        </section>
-    </main>
-
+        <% if (message) { %>
+            <p class="success-message"><%= message %></p>
+        <% } %>
+    </section>
+    
     <footer>
-        <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
+        <p>© 2025 LoveDoc - Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
