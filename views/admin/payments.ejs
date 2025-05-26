@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos Registrados - LoveDoc</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Administración de Pagos</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/admin/contacts">📂 Contactos</a></li>
+                <li><a href="/admin/payments">💳 Pagos</a></li>
+                <li><a href="/payment">✅ Realizar Pago</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Lista de Pagos Registrados</h2>
+
+        <% if (message) { %>
+            <p class="error-text"><%= message %></p>
+        <% } %>
+
+        <% if (payments.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Servicio</th>
+                        <th>Email</th>
+                        <th>Nombre en tarjeta</th>
+                        <th>Expiración</th>
+                        <th>Monto</th>
+                        <th>Moneda</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payments.forEach(payment => { %>
+                        <tr>
+                            <td><%= payment.id %></td>
+                            <td><%= payment.service %></td>
+                            <td><%= payment.email %></td>
+                            <td><%= payment.cardName %></td>
+                            <td><%= payment.expMonth %>/<%= payment.expYear %></td>
+                            <td><%= payment.amount %></td>
+                            <td><%= payment.currency %></td>
+                            <td><%= new Date(payment.created_at).toLocaleDateString() %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No hay pagos registrados aún.</p>
+        <% } %>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

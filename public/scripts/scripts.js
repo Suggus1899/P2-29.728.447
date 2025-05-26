@@ -1,5 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // 🔹 Activar menú hamburguesa
+    const hamburger = document.querySelector(".hamburger-menu");
+    const navLinks = document.querySelector(".nav-links");
+
+    hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+    });
+
+    // 🔹 Validación del formulario de contacto
     const form = document.querySelector("form");
+    const errorBox = document.createElement("div");
+    errorBox.classList.add("error-box");
+    form.prepend(errorBox);
 
     form.addEventListener("submit", (event) => {
         const email = document.getElementById("email").value.trim();
@@ -9,14 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let errors = [];
 
-        if (!email.includes("@")) errors.push("El correo no es válido.");
-        if (name.length < 2) errors.push("El nombre debe tener al menos 2 caracteres.");
-        if (lastname.length < 2) errors.push("El apellido debe tener al menos 2 caracteres.");
-        if (comment.length < 20) errors.push("El mensaje debe tener al menos 10 caracteres.");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push("❌ El correo no es válido.");
+        if (!/^[a-zA-Z]+$/.test(name) || name.length < 2) errors.push("❌ El nombre debe tener al menos 2 caracteres y solo letras.");
+        if (!/^[a-zA-Z]+$/.test(lastname) || lastname.length < 2) errors.push("❌ El apellido debe tener al menos 2 caracteres y solo letras.");
+        if (comment.length < 20) errors.push("❌ El mensaje debe tener al menos 20 caracteres.");
 
         if (errors.length > 0) {
             event.preventDefault();
-            alert(errors.join("\n")); // Muestra errores en un `alert()`
+            errorBox.innerHTML = errors.map(err => `<p>${err}</p>`).join("");
+            errorBox.style.display = "block";
+        } else {
+            errorBox.style.display = "none";
         }
     });
 });

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago - LoveDoc</title>
+  <link rel="stylesheet" href="/public/stylesheets/styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>LoveDoc</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/">🏠 Inicio</a></li>
+        <li><a href="/about">ℹ Sobre Nosotros</a></li>
+        <li><a href="/services">🛠 Servicios</a></li>
+        <li><a href="/traductions">🌍 Traducciones</a></li>
+        <li><a href="/payment">💳 Pago</a></li>
+        <li><a href="/contact">📩 Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="pago" class="payment">
+    <h2>Realiza tu pago</h2>
+    <p>Ingresa tus datos para completar la transacción.</p>
+
+    <% if (success) { %>
+        <p class="success">✅ ¡Pago realizado con éxito!</p>
+    <% } %>
+
+    <% if (errors.length > 0) { %>
+        <ul class="error-list">
+            <% errors.forEach(error => { %>
+                <li class="error-text">⚠ <%= error %></li>
+            <% }); %>
+        </ul>
+    <% } %>
+
+    <form action="/payment/process" method="POST">
+      <div class="form-group">
+        <label for="nombre">Nombre en la tarjeta:</label>
+        <input type="text" id="nombre" name="cardName" value="<%= data.cardName || '' %>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" value="<%= data.email || '' %>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="cardNumber">Número de tarjeta:</label>
+        <input type="text" id="cardNumber" name="cardNumber" value="<%= data.cardNumber || '' %>" pattern="\d{13,19}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="expMonth">Fecha de expiración:</label>
+        <select id="expMonth" name="expMonth" required>
+          <option value="">Mes...</option>
+          <% for (let i = 1; i <= 12; i++) { %>
+            <option value="<%= i %>" <%= data.expMonth == i ? 'selected' : '' %>><%= i %></option>
+          <% } %>
+        </select>
+        <select id="expYear" name="expYear" required>
+          <option value="">Año...</option>
+          <% for (let i = new Date().getFullYear(); i <= new Date().getFullYear() + 10; i++) { %>
+            <option value="<%= i %>" <%= data.expYear == i ? 'selected' : '' %>><%= i %></option>
+          <% } %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Monto:</label>
+        <input type="number" id="amount" name="amount" value="<%= data.amount || '' %>" required>
+      </div>
+
+      <button type="submit" class="button">Pagar</button>
+
+      <!-- ✅ Botón para acceder a la administración de pagos -->
+      <a href="/admin/payments" class="button admin-access">💳 Ver pagos registrados</a>  
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>

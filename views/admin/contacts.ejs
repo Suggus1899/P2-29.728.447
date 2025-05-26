@@ -3,39 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - LoveDoc</title>
-    <link rel="stylesheet" href="/public/styles.css"> <!-- Estilos CSS -->
+    <title>Administración de Contactos - LoveDoc</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
 </head>
+
 <body>
     <header>
-        <h1>Contacto</h1>
-        <p>Déjanos tu mensaje y nos pondremos en contacto contigo.</p>
+        <h1>Panel de Administración - Contactos</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/admin/contacts">📂 Contactos</a></li>
+                <li><a href="/admin/payments">💳 Pagos</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-        <% if (message) { %>
-            <p class="success"><%= message %></p> <!--  Mensaje de éxito -->
+        <h2>Lista de Contactos</h2>
+
+        <% if (typeof message !== "undefined" && message) { %>
+            <p class="success"><%= message %></p> <!-- Mensaje de éxito -->
         <% } %>
 
-        <form action="/contact/add" method="POST">
-            <label for="email">Correo electrónico:</label>
-            <input type="email" name="email" id="email" required placeholder="Tu correo">
+        <% if (errors && errors.length > 0) { %> <!-- Manejo de errores -->
+            <ul class="error-list">
+                <% errors.forEach(error => { %>
+                    <li class="error-text">⚠ <%= error %></li>
+                <% }); %>
+            </ul>
+        <% } %>
 
-            <label for="name">Nombre:</label>
-            <input type="text" name="name" id="name" required placeholder="Tu nombre">
-
-            <label for="lastname">Apellido:</label>
-            <input type="text" name="lastname" id="lastname" required placeholder="Tu apellido">
-
-            <label for="comment">Mensaje:</label>
-            <textarea name="comment" id="comment" required placeholder="Escribe tu mensaje"></textarea>
-
-            <button type="submit">Enviar</button>
-        </form>
+        <table class="contacts-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Comentario</th>
+                    <th>IP</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (contacts && contacts.length > 0) { %> <!-- Asegurar que `contacts` tiene datos -->
+                    <% contacts.forEach(contact => { %>
+                        <tr>
+                            <td><%= contact.id %></td>
+                            <td><%= contact.nombre %></td>
+                            <td><%= contact.email %></td>
+                            <td><%= contact.comment %></td>
+                            <td><%= contact.ip %></td>
+                            <td><%= contact.date %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6">No hay contactos registrados.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
     </main>
 
     <footer>
-        <p>LoveDoc © 2025 - Todos los derechos reservados.</p>
+        <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>

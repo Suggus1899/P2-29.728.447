@@ -1,7 +1,7 @@
 /* ✅ Importar fuente Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* ✅ Reset básico */
+/* 🔹 RESET GENERAL */
 * {
     margin: 0;
     padding: 0;
@@ -9,23 +9,23 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Paleta de colores */
+/* 🔹 PALETA DE COLORES */
 :root {
-    --color1: #444444;
-    --color2: #fcf7d1;
-    --color3: #a9a17a;
-    --color4: #b52c00;
-    --color5: #8c0005;
+    --color1: #cc2649;
+    --color2: #992c4b;
+    --color3: #66324c;
+    --color4: #33384e;
+    --color5: #003e4f;
 }
 
-/* Fondo general con degradado */
+/* 🔹 ESTILOS GENERALES */
 body {
     background: linear-gradient(to bottom, var(--color2), var(--color3));
-    color: var(--color1);
+    color: white;
     line-height: 1.6;
 }
 
-/* Encabezado */
+/* 🔹 ENCABEZADO Y NAVEGACIÓN */
 header {
     background-color: var(--color4);
     color: white;
@@ -37,21 +37,23 @@ header {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Navegación */
-nav ul {
+nav {
     display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0.5rem;
-    background-color: var(--color5);
-    border-radius: 8px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 2rem;
 }
 
-nav ul li {
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
     margin: 0 15px;
 }
 
-nav ul a {
+.nav-links a {
     text-decoration: none;
     color: white;
     font-weight: 600;
@@ -60,11 +62,53 @@ nav ul a {
     transition: background-color 0.3s ease-in-out;
 }
 
-nav ul a:hover {
-    background-color: var(--color4);
+.nav-links a:hover {
+    background-color: var(--color1);
 }
 
-/* Secciones */
+/* 🔹 MENÚ HAMBURGUESA */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.bar {
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+/* 🔹 MENÚ RESPONSIVO */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--color4);
+        padding: 10px 0;
+    }
+
+    .nav-links li {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+}
+
+/* 🔹 SECCIONES */
 section {
     padding: 2rem;
     max-width: 800px;
@@ -75,8 +119,8 @@ section {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Botones con animación */
-.button {
+/* 🔹 BOTONES */
+.button, .payment-button {
     display: inline-block;
     background-color: var(--color5);
     color: white;
@@ -88,115 +132,71 @@ section {
     text-decoration: none;
 }
 
-.button:hover {
+.button:hover, .payment-button:hover {
     background-color: var(--color4);
     transform: scale(1.05);
 }
 
-/* Estilos del formulario (contact.ejs) */
-.contact-form {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-}
-
-/* Campos de entrada */
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid var(--color3);
-    border-radius: 5px;
-}
-
-/* Botón de enviar */
-.contact-form button {
-    width: 100%;
-    background-color: var(--color5);
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.contact-form button:hover {
-    background-color: var(--color4);
-}
-
-/* Mensaje de éxito */
-.success {
-    color: var(--color5);
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-/* Tabla de administración (admin/contacts.ejs) */
-.admin-table {
+/* 🔹 TABLA DE PAGOS */
+.payments-table {
     width: 90%;
     margin: 20px auto;
     border-collapse: collapse;
     background: white;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Celdas */
-.admin-table th, .admin-table td {
+.payments-table th, .payments-table td {
     padding: 12px;
     border: 1px solid var(--color3);
     text-align: center;
 }
 
-/* Encabezados */
-.admin-table th {
+.payments-table th {
     background: var(--color5);
     color: white;
     font-size: 1rem;
 }
 
-/* Efecto hover en filas */
-.admin-table tr:hover {
+.payments-table tr:hover {
     background-color: var(--color3);
 }
 
-/* Diseño Responsivo */
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    section {
-        padding: 1rem;
-    }
-
-    .button {
-        font-size: 0.9rem;
-        padding: 10px 16px;
-    }
-
-    .contact-form {
-        max-width: 90%;
-    }
-
-    .admin-table {
-        width: 100%;
-    }
-
-    .admin-table th, .admin-table td {
-        font-size: 0.85rem;
-        padding: 8px;
-    }
+/* 🔹 MENSAJES DE ERROR Y ÉXITO */
+.payment-error {
+    color: var(--color1);
+    font-weight: bold;
+    text-align: center;
+    background: #ffdddd;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-/* Animación de entrada */
+.payment-success {
+    color: var(--color5);
+    font-weight: bold;
+    text-align: center;
+    background: #ddffdd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* 🔹 FOOTER */
+footer {
+    background-color: var(--color4);
+    color: var(--color2);
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 ANIMACIÓN */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -211,37 +211,119 @@ section {
 section, .button {
     animation: fadeIn 0.8s ease-out;
 }
+/* 🔹 FUENTE */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Estilos para el Footer */
-footer {
-    background-color: var(--color1);
-    color: var(--color2);
-    padding: 20px;
+/* 🔹 RESET GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* 🔹 PALETA DE COLORES */
+:root {
+    --color1: #cc2649;
+    --color2: #992c4b;
+    --color3: #66324c;
+    --color4: #33384e;
+    --color5: #003e4f;
+}
+
+/* 🔹 ESTILOS GENERALES */
+body {
+    background: linear-gradient(to bottom, var(--color2), var(--color3));
+    color: white;
+    line-height: 1.6;
+}
+
+/* 🔹 FORMULARIO DE CONTACTO */
+.contact-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.contact-form h2 {
     text-align: center;
-    font-size: 0.9rem;
-    font-weight: 500;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Links en el footer */
-footer a {
-    color: var(--color3);
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease-in-out;
-}
-
-footer a:hover {
     color: var(--color4);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
-/* esponsive para el footer */
+.contact-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color4);
+    font-weight: 500;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--color3);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color5);
+    box-shadow: 0 0 5px rgba(0, 62, 79, 0.5);
+}
+
+.contact-form button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color5);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+.contact-form button:hover {
+    background-color: var(--color4);
+    transform: scale(1.05);
+}
+
+/* 🔹 RESPONSIVIDAD */
 @media (max-width: 768px) {
-    footer {
-        font-size: 0.8rem;
-        padding: 15px;
+    .contact-form {
+        padding: 1.5rem;
+    }
+
+    .contact-form h2 {
+        font-size: 1.5rem;
+    }
+
+    .contact-form button {
+        font-size: 0.9rem;
+    }
+}
+
+/* 🔹 ANIMACIÓN */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
