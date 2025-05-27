@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { PaymentModel, Payment } from '../models/PaymentsModel'; // Corrección en importación
+import { PaymentModel, Payment } from '../models/PaymentsModel'; 
 import crypto from 'crypto';
 
 export class PaymentController {
-    // Procesa el pago
+    // ✅ Procesa el pago
     static async process(req: Request, res: Response, next: NextFunction) {
+        console.log("📌 Datos recibidos en el formulario de pago:", req.body);  // ✅ Depuración
+
         const { service, email, cardName, cardNumber, expMonth, expYear, amount, currency } = req.body;
         const errors: string[] = [];
 
@@ -31,7 +33,6 @@ export class PaymentController {
             return crypto.createHash('sha256').update(cardNumber.replace(/\s+/g, '')).digest('hex');
         };
 
-        // Guardar pago en la base de datos
         try {
             const pago: Payment = {
                 service,
@@ -46,6 +47,7 @@ export class PaymentController {
             };
 
             await PaymentModel.addPayment(pago);
+
             res.render("payment", {
                 success: true,
                 message: "¡Pago realizado con éxito!",
@@ -53,19 +55,34 @@ export class PaymentController {
                 data: {}
             });
         } catch (err) {
-            console.error("Error al registrar pago:", err);
-            next(err);
+            console.error("❌ Error al registrar pago:", err);
+            res.status(500).render("payment", {
+                message: "❌ Error interno del servidor.",
+                success: false,
+                errors: [],
+                data: req.body
+            });
         }
     }
 
-    // Obtiene la lista de pagos
+    // ✅ Obtiene la lista de pagos
     static async index(req: Request, res: Response) {
         try {
-            const payments = await PaymentModel.getAllPayments();
-            res.render("admin/payments", { payments });
+            const payments = await PaymentModel.getAllPayments() || []; // ✅ Evita valores indefinidos
+            
+            console.log("📌 Pagos recuperados:", payments); // ✅ Depuración para ver los datos
+            
+            res.render("admin/payments", { 
+                payments, 
+                message: payments.length > 0 ? "" : "No hay pagos registrados aún." // ✅ Aseguramos que `message` siempre tenga un valor
+            });
         } catch (error) {
-            console.error(" Error al obtener pagos:", error);
-            res.status(500).render("admin/payments", { payments: [], message: "Error al cargar los pagos." });
+            console.error("❌ Error al obtener pagos:", error);
+
+            res.status(500).render("admin/payments", { 
+                payments: [], 
+                message: "❌ Error al cargar los pagos." 
+            });
         }
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios - LoveDoc</title>
-    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/services.css">
 </head>
 <body>
     <header>
@@ -16,7 +16,7 @@
                 <li><a href="/services">Servicios</a></li>
                 <li><a href="/traductions">Traducciones</a></li>
                 <li><a href="/contact">Contacto</a></li>
-                <li><a href="/payment" class="payment-button">💳 Pago</a></li>
+                <li><a href="/payment" class="payment-button">Pago</a></li>
             </ul>
             <div class="hamburger-menu">
                 <span class="bar"></span>
@@ -32,46 +32,62 @@
             <p>LoveDoc ofrece una amplia gama de soluciones para traducción profesional y comunicación multilingüe.</p>
         </section>
 
-        <section class="service-categories">
-            <div class="service">
-                <h3>📜 Traducción estándar</h3>
-                <p>Convierte documentos de manera rápida y automática con precisión moderada.</p>
-                <a href="/translate?service=standard" class="button">Solicitar Traducción</a>
+        <!-- Ventajas de nuestros servicios -->
+        <section class="service-advantages">
+            <h2>Ventajas de elegir LoveDoc</h2>
+            <ul>
+                <li>✅ Traducción precisa con IA avanzada.</li>
+                <li>✅ Revisión humana para mayor calidad.</li>
+                <li>✅ Certificación oficial para documentos legales.</li>
+                <li>✅ Adaptación empresarial y técnica.</li>
+            </ul>
+        </section>
+
+        <!-- Tabla comparativa de planes -->
+        <section class="pricing-table">
+            <h2>Comparación de planes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Automática</th>
+                        <th>Revisión</th>
+                        <th>Certificación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Traducción estándar</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Traducción legal</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Traducción corporativa</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Testimonios -->
+        <section class="testimonials">
+            <h2>Lo que dicen nuestros clientes</h2>
+            <div class="testimonial">
+                <p>"LoveDoc me permitió traducir mi contrato de manera certificada y rápida. Excelente servicio."</p>
+                <strong>- Luis Fernández</strong>
             </div>
-            <div class="service">
-                <h3>⚖ Traducción legal</h3>
-                <p>Especializada en contratos, certificados y documentos jurídicos con terminología precisa.</p>
-                <a href="/translate?service=legal" class="button">Solicitar Traducción</a>
-            </div>
-            <div class="service">
-                <h3>📘 Traducción académica</h3>
-                <p>Artículos científicos, investigaciones y tesis con revisión experta.</p>
-                <a href="/translate?service=academic" class="button">Solicitar Traducción</a>
-            </div>
-            <div class="service">
-                <h3>🏢 Traducción corporativa</h3>
-                <p>Manuales, informes y documentos empresariales con formato profesional.</p>
-                <a href="/translate?service=corporate" class="button">Solicitar Traducción</a>
-            </div>
-            <div class="service">
-                <h3>🔍 Revisión y corrección</h3>
-                <p>Corrección gramatical y adaptación precisa al idioma destino.</p>
-                <a href="/translate?service=revision" class="button">Solicitar Revisión</a>
-            </div>
-            <div class="service">
-                <h3>🛡 Traducción certificada</h3>
-                <p>Documentos con validez legal y certificación oficial.</p>
-                <a href="/translate?service=certified" class="button">Solicitar Traducción</a>
-            </div>
-            <div class="service">
-                <h3>💡 Localización de contenido</h3>
-                <p>Adaptación de sitios web y software para distintos mercados.</p>
-                <a href="/translate?service=localization" class="button">Solicitar Localización</a>
-            </div>
-            <div class="service">
-                <h3>🚀 Traducción en tiempo real</h3>
-                <p>Traducción instantánea para reuniones, chats y conferencias online.</p>
-                <a href="/translate?service=real-time" class="button">Solicitar Traducción</a>
+            <div class="testimonial">
+                <p>"La traducción académica fue precisa y bien adaptada. Definitivamente volveré a usar LoveDoc."</p>
+                <strong>- Daniela Gómez</strong>
             </div>
         </section>
 
@@ -85,5 +101,6 @@
     <footer>
         <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
     </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

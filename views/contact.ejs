@@ -1,78 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto - LoveDoc</title>
-  
-  <link rel="stylesheet" href="/stylesheets/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - LoveDoc</title>
+    <link rel="stylesheet" href="/stylesheets/contact_form.css">
 </head>
 
 <body>
-  <header>
-    <h1>LoveDoc</h1>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="/"> Inicio</a></li>
-        <li><a href="/about">ℹ Sobre Nosotros</a></li>
-        <li><a href="/services">🛠 Servicios</a></li>
-        <li><a href="/traductions">🌍 Traducciones</a></li>
-        <li><a href="/payment">💳 Pago</a></li>
-        <li><a href="/contact">📩 Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+        <h1>LoveDoc</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/about">Sobre Nosotros</a></li>
+                <li><a href="/services">Servicios</a></li>
+                <li><a href="/traductions">Traducciones</a></li>
+                <li><a href="/payment">Pago</a></li>
+                <li><a href="/contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <section id="contacto" class="contact">
-    <h2>¡Déjanos tu mensaje!</h2>
-    
-    <% if (message) { %>
-        <p class="success"><%= message %></p> 
-    <% } %>
+    <section id="contacto" class="contact">
+        <h2>¡Déjanos tu mensaje!</h2>
 
-    <% if (errors && errors.length > 0) { %>
-        <ul class="error-list">
-            <% errors.forEach(error => { %>
-                <li class="error-text">⚠ <%= error %></li>
-            <% }); %>
+        <% if (message) { %>
+            <p class="success"><%= message %></p> 
+        <% } %>
+
+        <% if (errors && errors.length > 0) { %>
+            <ul class="error-list">
+                <% errors.forEach(error => { %>
+                    <li class="error-text">⚠ <%= error %></li>
+                <% }); %>
+            </ul>
+        <% } %>
+
+        <form action="/contact/add" method="POST">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="<%= data?.nombre || '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" value="<%= data?.email || '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_mensaje">Tipo de mensaje:</label>
+                <select id="tipo_mensaje" name="tipo_mensaje" required>
+                    <option value="">Selecciona una opción...</option>
+                    <option value="consulta" <%= data?.tipo_mensaje === 'consulta' ? 'selected' : '' %>>Consulta</option>
+                    <option value="sugerencia" <%= data?.tipo_mensaje === 'sugerencia' ? 'selected' : '' %>>Sugerencia</option>
+                    <option value="error" <%= data?.tipo_mensaje === 'error' ? 'selected' : '' %>>Reporte de error</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Comentario:</label>
+                <textarea id="comment" name="comment" rows="5" required><%= data?.comment || '' %></textarea>
+            </div>
+
+            <button type="submit" class="button">Enviar Mensaje</button>
+            <a href="/admin/contacts" class="button admin-access">🔧 Ver contactos registrados</a>  
+        </form>
+    </section>
+
+    <section class="contact-info">
+        <h2>Información de contacto</h2>
+        <p>📧 Correo electrónico: contacto@lovedoc.com</p>
+        <p>📞 Teléfono: +123 456 789</p>
+        <p>🔗 Redes Sociales:</p>
+        <ul>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
         </ul>
-    <% } %>
+    </section>
 
-    <form action="/contact/add" method="POST">
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="<%= data?.nombre || '' %>" required>
-      </div>
+    <section class="contact-map">
+        <h2>Ubicación</h2>
+        <iframe src="https://www.google.com/maps/embed?..."></iframe>
+    </section>
 
-      <div class="form-group">
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" value="<%= data?.email || '' %>" required>
-      </div>
+    <section class="faq">
+        <h2>Preguntas frecuentes</h2>
+        <div class="faq-item">
+            <h3>¿Cuánto tardan en responder?</h3>
+            <p>Respondemos dentro de 24 a 48 horas hábiles.</p>
+        </div>
+        <div class="faq-item">
+            <h3>¿Puedo cancelar mi pedido?</h3>
+            <p>Sí, contáctanos antes de que el proceso de traducción haya comenzado.</p>
+        </div>
+    </section>
 
-      <div class="form-group">
-        <label for="tipo_mensaje">Tipo de mensaje:</label> <!-- ✅ Nuevo campo -->
-        <select id="tipo_mensaje" name="tipo_mensaje" required>
-          <option value="">Selecciona una opción...</option>
-          <option value="consulta" <%= data?.tipo_mensaje === 'consulta' ? 'selected' : '' %>>Consulta</option>
-          <option value="sugerencia" <%= data?.tipo_mensaje === 'sugerencia' ? 'selected' : '' %>>Sugerencia</option>
-          <option value="error" <%= data?.tipo_mensaje === 'error' ? 'selected' : '' %>>Reporte de error</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="comment">Comentario:</label>
-        <textarea id="comment" name="comment" rows="5" required><%= data?.comment || '' %></textarea>
-      </div>
-
-      <button type="submit" class="button">Enviar Mensaje</button>
-
-      <!-- ✅ Botón para acceder a la administración de contactos -->
-      <a href="/admin/contacts" class="button admin-access">🔧 Ver contactos registrados</a>  
-    </form>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
-  </footer>
+    <footer>
+        <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
+    </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

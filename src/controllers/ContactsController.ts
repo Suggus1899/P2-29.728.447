@@ -16,9 +16,12 @@ export class ContactsController {
 
     // Guarda los datos del formulario en la base de datos
     static async add(req: Request, res: Response) {
-        const errors = validationResult(req);
+        console.log("📌 Datos recibidos en el formulario:", req.body); // Depuración
 
-        // Filtrar errores duplicados
+        const errors = validationResult(req);
+        console.log("📌 Errores detectados:", errors.array()); // Ver errores en consola
+
+        // 🚀 Filtrar errores duplicados
         const errorMessages = Array.from(
             new Set(errors.array().map(err => err.msg))
         );
@@ -35,7 +38,10 @@ export class ContactsController {
         }
 
         try {
-            const { email, nombre, comment } = req.body; 
+            // Capturamos valores de forma segura
+            const email = req.body.email?.trim() || "";
+            const nombre = req.body.nombre?.trim() || "";
+            const comment = req.body.comment?.trim() || "";
             const ip = req.ip ?? "0.0.0.0";
             const date = new Date().toISOString();
 
@@ -70,7 +76,7 @@ export class ContactsController {
         }
     }
 
-    // Obtiene y muestra la lista de contactos en `/admin/contacts`
+    //   Obtiene y muestra la lista de contactos en `/admin/contacts`
     static async index(req: Request, res: Response) {
         try {
             const contacts = await ContactsModel.getContacts();

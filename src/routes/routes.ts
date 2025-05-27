@@ -26,7 +26,7 @@ router.post('/contact/add', validateContactMiddleware, async (req: Request, res:
     try {
         await ContactsController.add(req, res);
     } catch (err) {
-        console.error(" Error en el formulario de contacto:", err);
+        console.error("Error en el formulario de contacto:", err);
         next(new Error("Error al procesar el formulario de contacto"));
     }
 });
@@ -38,7 +38,7 @@ router.get('/admin/contacts', ContactsController.index);
 router.get('/payment', async (req: Request, res: Response) => {
     res.render("payment", {
         title: "Pago",
-        message: null,
+        message: "",
         success: false,
         errors: [],
         data: { cardName: "", email: "", cardNumber: "", expMonth: "", expYear: "", amount: "" }
@@ -49,20 +49,26 @@ router.post('/payment/process', validatePaymentMiddleware, async (req: Request, 
     try {
         await PaymentController.process(req, res, next);
     } catch (err) {
-        console.error(" Error en el proceso de pago:", err);
+        console.error("❌ Error en el proceso de pago:", err);
         const errorMessage: string = err instanceof Error ? err.message : "Error interno desconocido";
         next(new Error(errorMessage));
     }
 });
 
-// Ruta de administración de pagos
+// Ruta de administración de pagos con corrección en `message`
 router.get('/admin/payments', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const payments = await PaymentModel.getAllPayments();
-        res.render("admin/payments", { payments });
+        res.render("admin/payments", { 
+            payments, 
+            message: payments.length > 0 ? "" : "No hay pagos registrados aún." // ✅ Aseguramos que `message` siempre tenga un valor
+        });
     } catch (err) {
-        console.error(" Error al obtener pagos:", err);
-        next(new Error("Error al cargar la lista de pagos"));
+        console.error("❌ Error al obtener pagos:", err);
+        res.status(500).render("admin/payments", { 
+            payments: [], 
+            message: "❌ Error al cargar la lista de pagos." 
+        });
     }
 });
 
@@ -75,7 +81,7 @@ router.use((req: Request, res: Response) => {
 });
 
 router.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error(" Error en la aplicación:", err);
+    console.error("❌ Error en la aplicación:", err);
     res.status(err.status || 500).render('error', {
         errorCode: err.status || 500,
         errorMessage: err.message || "Error interno del servidor",

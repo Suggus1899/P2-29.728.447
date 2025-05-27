@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagos Registrados - LoveDoc</title>
-    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/admin_payment.css">
 </head>
 <body>
     <header>
         <h1>Administración de Pagos</h1>
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="/">Inicio</a></li>
-                <li><a href="/admin/contacts">📂 Contactos</a></li>
-                <li><a href="/admin/payments">💳 Pagos</a></li>
-                <li><a href="/payment">✅ Realizar Pago</a></li>
+                <li><a href="/admin/contacts">Contactos</a></li>
+                <li><a href="/admin/payments">Pagos</a></li>
+                <li><a href="/payment">Realizar Pago</a></li>
             </ul>
         </nav>
     </header>
@@ -26,8 +26,14 @@
             <p class="error-text"><%= message %></p>
         <% } %>
 
+        <!-- Filtros y búsqueda -->
+        <section class="filters">
+            <input type="text" id="search" placeholder="Buscar por email o servicio...">
+            <button class="filter-button">Filtrar</button>
+        </section>
+
         <% if (payments.length > 0) { %>
-            <table>
+            <table class="payments-table">
                 <thead>
                     <tr>
                         <th>#ID</th>
@@ -38,6 +44,7 @@
                         <th>Monto</th>
                         <th>Moneda</th>
                         <th>Fecha</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +58,10 @@
                             <td><%= payment.amount %></td>
                             <td><%= payment.currency %></td>
                             <td><%= new Date(payment.created_at).toLocaleDateString() %></td>
+                            <td>
+                                <a href="/admin/payments/view/<%= payment.id %>" class="action-button view">🔍 Ver</a>
+                                <a href="/admin/payments/delete/<%= payment.id %>" class="action-button delete">🗑 Eliminar</a>
+                            </td>
                         </tr>
                     <% }); %>
                 </tbody>
@@ -58,10 +69,17 @@
         <% } else { %>
             <p>No hay pagos registrados aún.</p>
         <% } %>
+
+        <!-- Estadísticas -->
+        <section class="statistics">
+            <h2>Resumen de Pagos</h2>
+            <p>💳 Total de pagos procesados: <strong><%= payments.length || 0 %></strong></p>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
+        <p>&copy; 2025 LoveDoc - Todos los derechos reservados.</p>
     </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

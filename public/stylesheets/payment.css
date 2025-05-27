@@ -1,0 +1,193 @@
+/* Variables de color */
+:root {
+    --color1: #cc2649;
+    --color2: #992c4b;
+    --color3: #66324c;
+    --color4: #33384e;
+    --color5: #003e4f;
+    --hover-color: #b2203f;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color4);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    background: var(--color1);
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color2);
+    padding: 10px 20px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+/* Menú hamburguesa */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger-menu .bar {
+    background: white;
+    height: 4px;
+    width: 30px;
+    margin: 5px;
+}
+
+/* Sección pago */
+.payment {
+    text-align: center;
+    background: var(--color3);
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Estilos del formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--color5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background: var(--color4);
+    color: white;
+}
+
+/* Botones generales */
+.button {
+    padding: 12px;
+    background: var(--color1);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background 0.3s ease-in-out;
+}
+
+.button:hover {
+    background: var(--hover-color);
+}
+
+/* Botón de acceso a administración */
+.admin-access {
+    display: inline-block;
+    text-align: center;
+    padding: 12px;
+    background: var(--color2);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.admin-access:hover {
+    background: var(--hover-color);
+}
+
+/* Métodos de pago */
+.payment-methods {
+    background: var(--color2);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Seguridad en pago */
+.security-info {
+    background: var(--color5);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Estilos de mensajes de éxito y error */
+.success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.error-list {
+    list-style: none;
+    padding: 0;
+}
+
+.error-text {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--color1);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: var(--color2);
+        padding: 10px;
+        position: absolute;
+        top: 60px;
+        width: 100%;
+    }
+
+    .nav-links li {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+}

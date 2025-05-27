@@ -5,6 +5,10 @@ import helmet from "helmet"; // Protección adicional
 
 const app = express();
 
+// Middleware para procesar datos del formulario
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Configuración de motor de plantillas
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
@@ -16,7 +20,7 @@ app.use(
             directives: {
                 "default-src": ["'self'", "https://unpkg.com"],
                 "script-src": ["'self'", "https://unpkg.com"],
-                "script-src-elem": ["'self'", "https://unpkg.com"], // Permitir `ionicons`
+                "script-src-elem": ["'self'", "https://unpkg.com"],
                 "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
                 "font-src": ["'self'", "https://fonts.gstatic.com"]
             }
@@ -28,7 +32,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "../public"), {
     setHeaders: (res, filePath) => {
         if (filePath.endsWith(".css")) {
-            res.setHeader("Content-Type", "text/css"); // MIME corregido
+            res.setHeader("Content-Type", "text/css");
         }
     }
 }));
@@ -36,7 +40,7 @@ app.use(express.static(path.join(__dirname, "../public"), {
 // Uso de rutas con prefijo para mayor control
 app.use("/", routes);
 
-// manejo global de errores
+// Manejo global de errores
 app.use((req, res) => {
     res.status(404).render("error", {
         errorCode: 404,
