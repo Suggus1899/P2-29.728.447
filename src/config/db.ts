@@ -1,10 +1,10 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
 
 // Conexión a la base de datos SQLite
 export async function connectDB() {
     return open({
-        filename: 'database.sqlite',
+        filename: "database.sqlite",
         driver: sqlite3.Database
     });
 }
@@ -29,7 +29,8 @@ export async function initializeDB() {
             comment TEXT NOT NULL,
             lastname TEXT NULL,
             ip TEXT,
-            date TEXT DEFAULT CURRENT_TIMESTAMP  
+            pais TEXT,  -- Se agrega la columna "pais"
+            date TEXT DEFAULT CURRENT_TIMESTAMP
         );
     `);
 

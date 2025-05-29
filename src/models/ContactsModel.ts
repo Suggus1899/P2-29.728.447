@@ -3,8 +3,8 @@ import { connectDB } from '../config/db';
 export default class ContactsModel {
     private static dbPromise = connectDB();
 
-    // Guarda un nuevo contacto en la base de datos con validación
-    static async saveContact(email: string, nombre: string, comment: string, ip: string, date: string) {
+    // Guarda un nuevo contacto incluyendo "pais"
+    static async saveContact(email: string, nombre: string, comment: string, ip: string, pais: string, date: string) {
         if (!email || !nombre || !comment) {
             console.error("Error: Datos inválidos");
             return { success: false, error: "Datos inválidos" };
@@ -13,28 +13,28 @@ export default class ContactsModel {
         try {
             const db = await this.dbPromise;
             await db.run(
-                `INSERT INTO contacts (email, nombre, comment, ip, date) VALUES (?, ?, ?, ?, ?)`, 
-                [email, nombre, comment, ip, date]
+                `INSERT INTO contacts (email, nombre, comment, ip, pais, date) VALUES (?, ?, ?, ?, ?, ?)`, 
+                [email, nombre, comment, ip, pais, date]
             );
             return { success: true };
         } catch (error) {
-            console.error("Error al guardar contacto:", error);
+            console.error("❌ Error al guardar contacto:", error);
             return { success: false, error };
         }
     }
 
-    // Obtiene todos los contactos ordenados por fecha
+    // Obtiene contactos con "pais"
     static async getContacts() {
         try {
             const db = await this.dbPromise;
-            return await db.all(`SELECT id, email, nombre, comment, ip, date FROM contacts ORDER BY date DESC`);
+            return await db.all(`SELECT id, email, nombre, comment, ip, pais, date FROM contacts ORDER BY date DESC`);
         } catch (error) {
             console.error("Error al obtener contactos:", error);
             return [];
         }
     }
 
-    // Elimina un contacto por ID
+    // Elimina contacto por ID
     static async deleteContact(id: number) {
         try {
             const db = await this.dbPromise;
