@@ -1,44 +1,46 @@
-import { connectDB } from '../config/db';
+import { connectDB } from "../config/db";
 
 export default class ContactsModel {
-    private static dbPromise = connectDB();
+    private static db = connectDB(); 
 
-    // Guarda un nuevo contacto incluyendo "pais"
-    static async saveContact(email: string, nombre: string, comment: string, ip: string, pais: string, date: string) {
+    // 🔹 Guarda un nuevo contacto incluyendo "pais"
+    static saveContact(email: string, nombre: string, comment: string, ip: string, pais: string, date: string) {
         if (!email || !nombre || !comment) {
             console.error("Error: Datos inválidos");
             return { success: false, error: "Datos inválidos" };
         }
 
         try {
-            const db = await this.dbPromise;
-            await db.run(
-                `INSERT INTO contacts (email, nombre, comment, ip, pais, date) VALUES (?, ?, ?, ?, ?, ?)`, 
-                [email, nombre, comment, ip, pais, date]
-            );
+            const stmt = this.db.prepare(
+                `INSERT INTO contacts (email, nombre, comment, ip, pais, date) VALUES (?, ?, ?, ?, ?, ?)`
+            ); 
+            stmt.run(email, nombre, comment, ip, pais, date); 
+
             return { success: true };
         } catch (error) {
-            console.error("❌ Error al guardar contacto:", error);
+            console.error("Error al guardar contacto:", error);
             return { success: false, error };
         }
     }
 
-    // Obtiene contactos con "pais"
-    static async getContacts() {
+    // 🔹 Obtiene contactos con "pais"
+    static getContacts() {
         try {
-            const db = await this.dbPromise;
-            return await db.all(`SELECT id, email, nombre, comment, ip, pais, date FROM contacts ORDER BY date DESC`);
+            const stmt = this.db.prepare(
+                `SELECT id, email, nombre, comment, ip, pais, date FROM contacts ORDER BY date DESC`
+            ); // 
+            return stmt.all(); 
         } catch (error) {
             console.error("Error al obtener contactos:", error);
             return [];
         }
     }
 
-    // Elimina contacto por ID
-    static async deleteContact(id: number) {
+    // 🔹 Elimina contacto por ID
+    static deleteContact(id: number) {
         try {
-            const db = await this.dbPromise;
-            await db.run(`DELETE FROM contacts WHERE id = ?`, [id]);
+            const stmt = this.db.prepare(`DELETE FROM contacts WHERE id = ?`); 
+            stmt.run(id); 
             return { success: true };
         } catch (error) {
             console.error("Error al eliminar contacto:", error);

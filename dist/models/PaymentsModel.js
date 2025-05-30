@@ -15,7 +15,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentModel = void 0;
 const sqlite_1 = require("sqlite");
-const sqlite3_1 = __importDefault(require("sqlite3"));
+const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
 const crypto_1 = __importDefault(require("crypto"));
 class PaymentModel {
     static getDB() {
@@ -58,7 +58,7 @@ exports.PaymentModel = PaymentModel;
 _a = PaymentModel;
 PaymentModel.dbPromise = (0, sqlite_1.open)({
     filename: "./data/payments.sqlite",
-    driver: sqlite3_1.default.Database
+    driver: better_sqlite3_1.default
 }).then((db) => __awaiter(void 0, void 0, void 0, function* () {
     yield db.run(`
             CREATE TABLE IF NOT EXISTS payments (

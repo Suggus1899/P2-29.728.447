@@ -15,13 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = connectDB;
 exports.initializeDB = initializeDB;
 const sqlite_1 = require("sqlite");
-const sqlite3_1 = __importDefault(require("sqlite3"));
+const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
 // 🔹 Conexión a la base de datos SQLite
 function connectDB() {
     return __awaiter(this, void 0, void 0, function* () {
         return (0, sqlite_1.open)({
             filename: "database.sqlite",
-            driver: sqlite3_1.default.Database
+            driver: better_sqlite3_1.default
         });
     });
 }

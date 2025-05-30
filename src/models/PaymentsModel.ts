@@ -1,5 +1,4 @@
-import { open, Database } from "sqlite";
-import sqlite3 from "sqlite3";
+import Database from "better-sqlite3";
 import crypto from "crypto";
 
 export interface Payment {
@@ -16,11 +15,11 @@ export interface Payment {
 }
 
 export class PaymentModel {
-    private static dbPromise: Promise<Database> = open({
-        filename: "./data/payments.sqlite",
-        driver: sqlite3.Database 
-    }).then(async db => {
-        await db.run(`
+    private static db = new Database("./data/payments.sqlite", {});
+
+    // 🔹 Crear tabla si no existe
+    static initializeDB() {
+        this.db.exec(`
             CREATE TABLE IF NOT EXISTS payments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 service TEXT NOT NULL,
@@ -34,11 +33,6 @@ export class PaymentModel {
                 created_at TEXT DEFAULT (DATETIME('now'))
             )
         `);
-        return db;
-    });
-
-    static async getDB(): Promise<Database> {
-        return this.dbPromise;
     }
 
     // 🔒 Encripta el número de tarjeta con seguridad mejorada
@@ -46,31 +40,33 @@ export class PaymentModel {
         return crypto.createHash("sha512").update(cardNumber).digest("hex");
     }
 
-    static async addPayment(p: Payment): Promise<{ success: boolean; error?: string }> {
+    // 🔹 Agregar un nuevo pago
+    static addPayment(p: Payment): { success: boolean; error?: string } {
         try {
-            const db = await this.getDB();
             const encryptedCardNumber = this.encryptCardNumber(p.cardNumber);
-
-            await db.run(
-                `INSERT INTO payments (service, email, cardName, cardNumber, expMonth, expYear, amount, currency, created_at)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            const stmt = this.db.prepare(`
+                INSERT INTO payments (service, email, cardName, cardNumber, expMonth, expYear, amount, currency, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `);
+            stmt.run(
                 p.service, p.email, p.cardName, encryptedCardNumber,
                 p.expMonth, p.expYear, p.amount, p.currency, p.created_at ?? new Date().toISOString()
             );
 
             return { success: true };
         } catch (err) {
-            console.error("❌ Error al guardar el pago:", err);
+            console.error("Error al guardar el pago:", err);
             return { success: false, error: err instanceof Error ? err.message : "Error desconocido" };
         }
     }
 
-    static async getAllPayments(): Promise<Payment[]> {
-        const db = await this.getDB();
-        return db.all<Payment[]>(`
+    // 🔹 Obtener todos los pagos
+    static getAllPayments(): Payment[] {
+        const stmt = this.db.prepare(`
             SELECT id, service, email, cardName, expMonth, expYear, amount, currency, created_at 
             FROM payments 
             ORDER BY created_at DESC
         `);
+        return stmt.all() as Payment[]; 
     }
 }
