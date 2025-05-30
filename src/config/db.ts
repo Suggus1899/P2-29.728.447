@@ -1,15 +1,15 @@
-import sqlite3 from "sqlite3";
 import { open } from "sqlite";
+import sqlite3 from "sqlite3"; 
 
-// Conexión a la base de datos SQLite
+// 🔹 Conexión a la base de datos SQLite
 export async function connectDB() {
     return open({
         filename: "database.sqlite",
-        driver: sqlite3.Database
+        driver: sqlite3.Database 
     });
 }
 
-// Inicializar la base de datos y crear tablas si no existen
+// 🔹 Inicializar la base de datos y crear tablas si no existen
 export async function initializeDB() {
     const db = await connectDB();
 
@@ -29,7 +29,7 @@ export async function initializeDB() {
             comment TEXT NOT NULL,
             lastname TEXT NULL,
             ip TEXT,
-            pais TEXT,  -- Se agrega la columna "pais"
+            pais TEXT,
             date TEXT DEFAULT CURRENT_TIMESTAMP
         );
     `);

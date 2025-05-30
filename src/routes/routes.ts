@@ -61,7 +61,7 @@ router.get('/admin/payments', async (req: Request, res: Response, next: NextFunc
         const payments = await PaymentModel.getAllPayments();
         res.render("admin/payments", { 
             payments, 
-            message: payments.length > 0 ? "" : "No hay pagos registrados aún." // ✅ Aseguramos que `message` siempre tenga un valor
+            message: payments.length > 0 ? "" : "No hay pagos registrados aún."
         });
     } catch (err) {
         console.error("❌ Error al obtener pagos:", err);

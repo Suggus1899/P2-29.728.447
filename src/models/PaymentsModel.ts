@@ -1,6 +1,6 @@
-import { open, Database } from 'sqlite';
-import sqlite3 from 'sqlite3';
-import crypto from 'crypto';
+import { open, Database } from "sqlite";
+import sqlite3 from "sqlite3";
+import crypto from "crypto";
 
 export interface Payment {
     id?: number;
@@ -16,9 +16,9 @@ export interface Payment {
 }
 
 export class PaymentModel {
-    private static dbPromise: Promise<Database<sqlite3.Database, sqlite3.Statement>> = open({
-        filename: './data/payments.sqlite',
-        driver: sqlite3.Database
+    private static dbPromise: Promise<Database> = open({
+        filename: "./data/payments.sqlite",
+        driver: sqlite3.Database 
     }).then(async db => {
         await db.run(`
             CREATE TABLE IF NOT EXISTS payments (
@@ -37,13 +37,13 @@ export class PaymentModel {
         return db;
     });
 
-    static async getDB(): Promise<Database<sqlite3.Database, sqlite3.Statement>> {
+    static async getDB(): Promise<Database> {
         return this.dbPromise;
     }
 
-    // Encripta el número de tarjeta con mayor seguridad
+    // 🔒 Encripta el número de tarjeta con seguridad mejorada
     private static encryptCardNumber(cardNumber: string): string {
-        return crypto.createHash('sha512').update(cardNumber).digest('hex'); // 🔒 Usar SHA-512
+        return crypto.createHash("sha512").update(cardNumber).digest("hex");
     }
 
     static async addPayment(p: Payment): Promise<{ success: boolean; error?: string }> {
@@ -61,8 +61,7 @@ export class PaymentModel {
             return { success: true };
         } catch (err) {
             console.error("❌ Error al guardar el pago:", err);
-            const errorMessage = err instanceof Error ? err.message : "Error desconocido";
-            return { success: false, error: errorMessage };
+            return { success: false, error: err instanceof Error ? err.message : "Error desconocido" };
         }
     }
 

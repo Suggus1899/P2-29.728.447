@@ -3,9 +3,9 @@ import { PaymentModel, Payment } from '../models/PaymentsModel';
 import crypto from 'crypto';
 
 export class PaymentController {
-    // ✅ Procesa el pago
+    // Procesa el pago
     static async process(req: Request, res: Response, next: NextFunction) {
-        console.log("📌 Datos recibidos en el formulario de pago:", req.body);  // ✅ Depuración
+        console.log("📌 Datos recibidos en el formulario de pago:", req.body);
 
         const { service, email, cardName, cardNumber, expMonth, expYear, amount, currency } = req.body;
         const errors: string[] = [];
@@ -55,9 +55,9 @@ export class PaymentController {
                 data: {}
             });
         } catch (err) {
-            console.error("❌ Error al registrar pago:", err);
+            console.error("Error al registrar pago:", err);
             res.status(500).render("payment", {
-                message: "❌ Error interno del servidor.",
+                message: " Error interno del servidor.",
                 success: false,
                 errors: [],
                 data: req.body
@@ -65,23 +65,23 @@ export class PaymentController {
         }
     }
 
-    // ✅ Obtiene la lista de pagos
+    // Obtiene la lista de pagos
     static async index(req: Request, res: Response) {
         try {
-            const payments = await PaymentModel.getAllPayments() || []; // ✅ Evita valores indefinidos
+            const payments = await PaymentModel.getAllPayments() || []; // Evita valores indefinidos
             
-            console.log("📌 Pagos recuperados:", payments); // ✅ Depuración para ver los datos
+            console.log("📌 Pagos recuperados:", payments); // Depuración para ver los datos
             
             res.render("admin/payments", { 
                 payments, 
-                message: payments.length > 0 ? "" : "No hay pagos registrados aún." // ✅ Aseguramos que `message` siempre tenga un valor
+                message: payments.length > 0 ? "" : "No hay pagos registrados aún."
             });
         } catch (error) {
-            console.error("❌ Error al obtener pagos:", error);
+            console.error("Error al obtener pagos:", error);
 
             res.status(500).render("admin/payments", { 
                 payments: [], 
-                message: "❌ Error al cargar los pagos." 
+                message: "Error al cargar los pagos." 
             });
         }
     }
