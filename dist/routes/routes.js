@@ -54,7 +54,7 @@ router.post('/payment/process', validation_1.validatePaymentMiddleware, (req, re
         yield PaymentsController_1.PaymentController.process(req, res, next);
     }
     catch (err) {
-        console.error("❌ Error en el proceso de pago:", err);
+        console.error("Error en el proceso de pago:", err);
         const errorMessage = err instanceof Error ? err.message : "Error interno desconocido";
         next(new Error(errorMessage));
     }
@@ -69,10 +69,10 @@ router.get('/admin/payments', (req, res, next) => __awaiter(void 0, void 0, void
         });
     }
     catch (err) {
-        console.error("❌ Error al obtener pagos:", err);
+        console.error("Error al obtener pagos:", err);
         res.status(500).render("admin/payments", {
             payments: [],
-            message: "❌ Error al cargar la lista de pagos."
+            message: "Error al cargar la lista de pagos."
         });
     }
 }));
