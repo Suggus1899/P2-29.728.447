@@ -1,11 +1,11 @@
-import Database from "better-sqlite3"; 
+import Database from "better-sqlite3";
 
-// Conexión a la base de datos SQLite
+// 🔹 Conexión a la base de datos SQLite
 export function connectDB() {
     return new Database("database.sqlite"); 
 }
 
-// iicializar la base de datos y crear tablas si no existen
+// 🔹 Inicializar la base de datos y crear tablas si no existen
 export function initializeDB() {
     const db = connectDB();
 
@@ -29,4 +29,6 @@ export function initializeDB() {
             date TEXT DEFAULT CURRENT_TIMESTAMP
         );
     `);
+
+    db.close(); 
 }
