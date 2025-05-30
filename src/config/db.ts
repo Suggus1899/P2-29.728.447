@@ -1,19 +1,15 @@
-import { open } from "sqlite";
-import sqlite3 from "sqlite3"; 
+import Database from "better-sqlite3";
 
 // 🔹 Conexión a la base de datos SQLite
-export async function connectDB() {
-    return open({
-        filename: "database.sqlite",
-        driver: sqlite3.Database 
-    });
+export function connectDB() {
+    return new Database("database.sqlite"); 
 }
 
 // 🔹 Inicializar la base de datos y crear tablas si no existen
-export async function initializeDB() {
-    const db = await connectDB();
+export function initializeDB() {
+    const db = connectDB();
 
-    await db.exec(`
+    db.exec(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
@@ -34,5 +30,5 @@ export async function initializeDB() {
         );
     `);
 
-    await db.close();
+    db.close(); 
 }

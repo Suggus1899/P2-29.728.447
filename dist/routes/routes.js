@@ -26,7 +26,7 @@ pages.forEach(({ path, title }) => {
         res.render(path.replace('/', ''), { title });
     }));
 });
-// Rutas de contacto con validación y manejo de errores mejorados
+// Rutas de contacto con validación mejorada
 router.get('/contact', ContactsController_1.ContactsController.contactPage);
 router.post('/contact/add', validation_1.validateContactMiddleware, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -43,7 +43,7 @@ router.get('/admin/contacts', ContactsController_1.ContactsController.index);
 router.get('/payment', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.render("payment", {
         title: "Pago",
-        message: null,
+        message: "",
         success: false,
         errors: [],
         data: { cardName: "", email: "", cardNumber: "", expMonth: "", expYear: "", amount: "" }
@@ -59,18 +59,24 @@ router.post('/payment/process', validation_1.validatePaymentMiddleware, (req, re
         next(new Error(errorMessage));
     }
 }));
-// Ruta de administración de pagos
+// Ruta de administración de pagos con corrección en `message`
 router.get('/admin/payments', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const payments = yield PaymentsModel_1.PaymentModel.getAllPayments();
-        res.render("admin/payments", { payments });
+        res.render("admin/payments", {
+            payments,
+            message: payments.length > 0 ? "" : "No hay pagos registrados aún."
+        });
     }
     catch (err) {
         console.error("Error al obtener pagos:", err);
-        next(new Error("Error al cargar la lista de pagos"));
+        res.status(500).render("admin/payments", {
+            payments: [],
+            message: "Error al cargar la lista de pagos."
+        });
     }
 }));
-// Middleware de manejo de errores global mejorado
+// Middleware de manejo de errores mejorado
 router.use((req, res) => {
     res.status(404).render('error', {
         errorCode: 404,
@@ -78,7 +84,7 @@ router.use((req, res) => {
     });
 });
 router.use((err, req, res, next) => {
-    console.error("Error en la aplicación:", err);
+    console.error("❌ Error en la aplicación:", err);
     res.status(err.status || 500).render('error', {
         errorCode: err.status || 500,
         errorMessage: err.message || "Error interno del servidor",
