@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import ContactsModel from "../models/ContactsModel";
 import { getUserLocation } from "../utils/geolocation";
+import { sendEmail } from "../utils/emailServices";
 
 // Definir la interfaz para la respuesta de reCAPTCHA
 interface RecaptchaResponse {
@@ -48,7 +49,7 @@ export class ContactsController {
                 method: "POST"
             });
 
-            const recaptchaData = (await recaptchaVerify.json()) as RecaptchaResponse; // Cast con interfaz
+            const recaptchaData = (await recaptchaVerify.json()) as RecaptchaResponse; 
 
             if (!recaptchaData.success) {
                 return res.render("contact", {
@@ -70,6 +71,9 @@ export class ContactsController {
             const result = await ContactsModel.saveContact(email, nombre, comment, ip, pais, date);
 
             if (result.success) {
+                // Enviar notificación por correo electrónico
+                await sendEmail({ nombre, email, comment, ip, pais, date });
+
                 res.render("contact", { 
                     title: "Contacto",
                     data: { nombre: "", email: "", comment: "" },

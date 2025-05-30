@@ -40,7 +40,7 @@ app.use(
                     "https://www.google.com/recaptcha/", 
                     "https://www.gstatic.com/recaptcha/",
                     "https://www.google.com"
-                ] // ✅ Permitir iframes de Google reCAPTCHA correctamente
+                ] 
             }
         }
     })
