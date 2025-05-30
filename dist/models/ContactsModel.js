@@ -11,16 +11,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../config/db");
 class ContactsModel {
-    // Guarda un nuevo contacto en la base de datos con validación
-    static saveContact(email, name, lastname, comment, ip, date) {
+    // Guarda un nuevo contacto incluyendo "pais"
+    static saveContact(email, nombre, comment, ip, pais, date) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!email || !name || !lastname || !comment) {
-                console.error("❌ Error: Datos inválidos");
+            if (!email || !nombre || !comment) {
+                console.error("Error: Datos inválidos");
                 return { success: false, error: "Datos inválidos" };
             }
             try {
                 const db = yield this.dbPromise;
-                yield db.run(`INSERT INTO contacts (email, name, lastname, comment, ip, date) VALUES (?, ?, ?, ?, ?, ?)`, [email, name, lastname, comment, ip, date]);
+                yield db.run(`INSERT INTO contacts (email, nombre, comment, ip, pais, date) VALUES (?, ?, ?, ?, ?, ?)`, [email, nombre, comment, ip, pais, date]);
                 return { success: true };
             }
             catch (error) {
@@ -29,12 +29,12 @@ class ContactsModel {
             }
         });
     }
-    // Obtiene todos los contactos ordenados por fecha
+    // Obtiene contactos con "pais"
     static getContacts() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const db = yield this.dbPromise;
-                return yield db.all(`SELECT id, email, name, lastname, comment, date FROM contacts ORDER BY date DESC`);
+                return yield db.all(`SELECT id, email, nombre, comment, ip, pais, date FROM contacts ORDER BY date DESC`);
             }
             catch (error) {
                 console.error("Error al obtener contactos:", error);
@@ -42,7 +42,7 @@ class ContactsModel {
             }
         });
     }
-    // Elimina un contacto por ID
+    // Elimina contacto por ID
     static deleteContact(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -51,7 +51,7 @@ class ContactsModel {
                 return { success: true };
             }
             catch (error) {
-                console.error("❌ Error al eliminar contacto:", error);
+                console.error("Error al eliminar contacto:", error);
                 return { success: false, error };
             }
         });

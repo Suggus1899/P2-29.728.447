@@ -23,9 +23,9 @@ class PaymentModel {
             return this.dbPromise;
         });
     }
-    // Encripta el número de tarjeta con mayor seguridad
+    // 🔒 Encripta el número de tarjeta con seguridad mejorada
     static encryptCardNumber(cardNumber) {
-        return crypto_1.default.createHash('sha512').update(cardNumber).digest('hex'); // 🔒 Usar SHA-512
+        return crypto_1.default.createHash("sha512").update(cardNumber).digest("hex");
     }
     static addPayment(p) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -39,8 +39,7 @@ class PaymentModel {
             }
             catch (err) {
                 console.error("❌ Error al guardar el pago:", err);
-                const errorMessage = err instanceof Error ? err.message : "Error desconocido";
-                return { success: false, error: errorMessage };
+                return { success: false, error: err instanceof Error ? err.message : "Error desconocido" };
             }
         });
     }
@@ -58,7 +57,7 @@ class PaymentModel {
 exports.PaymentModel = PaymentModel;
 _a = PaymentModel;
 PaymentModel.dbPromise = (0, sqlite_1.open)({
-    filename: './data/payments.sqlite',
+    filename: "./data/payments.sqlite",
     driver: sqlite3_1.default.Database
 }).then((db) => __awaiter(void 0, void 0, void 0, function* () {
     yield db.run(`

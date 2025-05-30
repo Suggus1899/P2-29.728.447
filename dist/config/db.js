@@ -14,18 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = connectDB;
 exports.initializeDB = initializeDB;
-const sqlite3_1 = __importDefault(require("sqlite3"));
 const sqlite_1 = require("sqlite");
-// Conexión a la base de datos SQLite
+const sqlite3_1 = __importDefault(require("sqlite3"));
+// 🔹 Conexión a la base de datos SQLite
 function connectDB() {
     return __awaiter(this, void 0, void 0, function* () {
         return (0, sqlite_1.open)({
-            filename: 'database.sqlite',
+            filename: "database.sqlite",
             driver: sqlite3_1.default.Database
         });
     });
 }
-// Inicializar la base de datos y crear tablas si no existen
+// 🔹 Inicializar la base de datos y crear tablas si no existen
 function initializeDB() {
     return __awaiter(this, void 0, void 0, function* () {
         const db = yield connectDB();
@@ -42,10 +42,11 @@ function initializeDB() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
             email TEXT NOT NULL,
-            lastname TEXT NOT NULL,
             comment TEXT NOT NULL,
+            lastname TEXT NULL,
             ip TEXT,
-            date TEXT
+            pais TEXT,
+            date TEXT DEFAULT CURRENT_TIMESTAMP
         );
     `);
         yield db.close();
