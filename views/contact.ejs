@@ -63,6 +63,9 @@
                 <textarea id="comment" name="comment" rows="5" required><%= data?.comment || '' %></textarea>
             </div>
 
+            <!-- 🔹 Integración de Google reCAPTCHA con clave de sitio -->
+            <div class="g-recaptcha" data-sitekey="6LcXVU8rAAAAAPAwMeBEREXBlUPtbgprYtyyLRC9"></div>
+
             <button type="submit" class="button">Enviar Mensaje</button>
             <a href="/admin/contacts" class="button admin-access">🔧 Ver contactos registrados</a>  
         </form>
@@ -100,6 +103,8 @@
     <footer>
         <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
     </footer>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/scripts/scripts.js"></script>
 </body>
 </html>

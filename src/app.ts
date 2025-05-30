@@ -13,16 +13,34 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
-// Middleware de seguridad (helmet) con ajuste de CSP
+// Middleware de seguridad (helmet) con ajuste de CSP para permitir Google reCAPTCHA
 app.use(
     helmet({
         contentSecurityPolicy: {
             directives: {
                 "default-src": ["'self'", "https://unpkg.com"],
-                "script-src": ["'self'", "https://unpkg.com"],
-                "script-src-elem": ["'self'", "https://unpkg.com"],
+                "script-src": [
+                    "'self'", 
+                    "https://unpkg.com", 
+                    "https://www.google.com/recaptcha/",
+                    "https://www.gstatic.com/recaptcha/",
+                    "https://www.google.com"
+                ],
+                "script-src-elem": [
+                    "'self'", 
+                    "https://unpkg.com", 
+                    "https://www.google.com/recaptcha/",
+                    "https://www.gstatic.com/recaptcha/",
+                    "https://www.google.com"
+                ],
                 "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-                "font-src": ["'self'", "https://fonts.gstatic.com"]
+                "font-src": ["'self'", "https://fonts.gstatic.com"],
+                "frame-src": [
+                    "'self'", 
+                    "https://www.google.com/recaptcha/", 
+                    "https://www.gstatic.com/recaptcha/",
+                    "https://www.google.com"
+                ] // ✅ Permitir iframes de Google reCAPTCHA correctamente
             }
         }
     })

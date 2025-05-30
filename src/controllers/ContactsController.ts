@@ -1,7 +1,16 @@
+import fetch from "node-fetch";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import ContactsModel from "../models/ContactsModel";
-import { getUserLocation } from "../utils/geolocation"; // ✅ Importamos la función
+import { getUserLocation } from "../utils/geolocation";
+
+// Definir la interfaz para la respuesta de reCAPTCHA
+interface RecaptchaResponse {
+    success: boolean;
+    challenge_ts?: string;
+    hostname?: string;
+    "error-codes"?: string[];
+}
 
 export class ContactsController {
     static async contactPage(req: Request, res: Response) {
@@ -18,9 +27,6 @@ export class ContactsController {
         console.log("📌 Datos recibidos en el formulario:", req.body);
 
         const errors = validationResult(req);
-        console.log("📌 Errores detectados:", errors.array());
-
-        // 🚀 Filtrar errores duplicados
         const errorMessages = Array.from(new Set(errors.array().map(err => err.msg)));
 
         if (!errors.isEmpty()) {
@@ -34,15 +40,31 @@ export class ContactsController {
         }
 
         try {
+            const recaptchaToken = req.body["g-recaptcha-response"];
+            const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+
+            // 🔹 Validar reCAPTCHA antes de procesar el formulario
+            const recaptchaVerify = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`, {
+                method: "POST"
+            });
+
+            const recaptchaData = (await recaptchaVerify.json()) as RecaptchaResponse; // Cast con interfaz
+
+            if (!recaptchaData.success) {
+                return res.render("contact", {
+                    title: "Contacto",
+                    data: req.body,
+                    message: "❌ Error de verificación reCAPTCHA, inténtalo nuevamente.",
+                    success: false,
+                    errors: ["reCAPTCHA inválido"]
+                });
+            }
+
             const email = req.body.email?.trim() || "";
             const nombre = req.body.nombre?.trim() || "";
             const comment = req.body.comment?.trim() || "";
-            const ip = req.headers["x-forwarded-for"] as string || req.ip || "0.0.0.0"; 
-
-            // 🔹 Obtener el país basado en la IP
+            const ip = req.headers["x-forwarded-for"] as string || req.ip || "0.0.0.0";
             const pais = await getUserLocation(ip);
-            console.log(`Ubicación detectada: ${pais} (${ip})`);
-
             const date = new Date().toISOString();
 
             const result = await ContactsModel.saveContact(email, nombre, comment, ip, pais, date);
@@ -76,6 +98,7 @@ export class ContactsController {
         }
     }
 
+    // Método para obtener y mostrar la lista de contactos
     static async index(req: Request, res: Response) {
         try {
             const contacts = await ContactsModel.getContacts();
