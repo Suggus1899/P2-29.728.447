@@ -16,7 +16,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 // Ruta de contacto mejorada con `NextFunction` para manejar errores correctamente
 router.post("/contact/add", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await ContactsController.add(req, res);
+        await ContactsController.add(req, res, next);
     } catch (err) {
         console.error("Error en el formulario de contacto:", err);
         next(new Error("Error al procesar el formulario de contacto"));
