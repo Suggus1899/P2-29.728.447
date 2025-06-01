@@ -63,7 +63,7 @@
                 <textarea id="comment" name="comment" rows="5" required><%= data?.comment || '' %></textarea>
             </div>
 
-            <!-- 🔹 Integración de reCAPTCHA v3 -->
+            <!-- 🔹 Integración de reCAPTCHA v3 sin script inline -->
             <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
             <button type="submit" class="button">Enviar Mensaje</button>
@@ -99,16 +99,8 @@
         <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- 🔹 Script para reCAPTCHA v3 -->
     <script src="https://www.google.com/recaptcha/api.js?render=6LcbuFIrAAAAAE0975tRp_b32HO3D3WbrMmbVkXB"></script>
-    <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6LcbuFIrAAAAAE0975tRp_b32HO3D3WbrMmbVkXB', { action: 'submit' }).then(function(token) {
-                document.getElementById('g-recaptcha-response').value = token;
-            });
-        });
-    </script>
-
+    <script src="/scripts/recaptcha.js"></script>
     <script src="/scripts/scripts.js"></script>
 </body>
 </html>
