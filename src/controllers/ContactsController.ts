@@ -14,8 +14,7 @@ interface RecaptchaResponse {
 
 export class ContactsController {
   private static model = new ContactsModel();
-  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET; // 🔹 Eliminado valor estático
-
+  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET; 
   static async contactPage(req: Request, res: Response) {
     res.render("contact", {
       title: "Contacto",
@@ -29,7 +28,7 @@ export class ContactsController {
   private static async validateRecaptcha(recaptchaToken: string): Promise<boolean> {
     try {
       if (!recaptchaToken) {
-        console.error("❌ Error: reCAPTCHA token no recibido.");
+        console.error("Error: reCAPTCHA token no recibido.");
         return false;
       }
 
@@ -48,12 +47,12 @@ export class ContactsController {
       console.log("🔍 Respuesta completa de Google reCAPTCHA:", recaptchaData);
 
       if (!recaptchaData.success) {
-        console.error("❌ Error de reCAPTCHA:", recaptchaData["error-codes"]);
+        console.error("Error de reCAPTCHA:", recaptchaData["error-codes"]);
       }
 
       return recaptchaData.success;
     } catch (error) {
-      console.error("❌ Error al validar reCAPTCHA:", error);
+      console.error("Error al validar reCAPTCHA:", error);
       return false;
     }
   }
@@ -75,7 +74,6 @@ export class ContactsController {
     }
 
     try {
-      // 🔹 Corrección en la captura del token reCAPTCHA
       const { nombre, email, comentario } = req.body;
       const recaptchaToken = req.body["g-recaptcha-response"] || req.body.recaptchaToken;
 
@@ -91,7 +89,7 @@ export class ContactsController {
         return res.status(400).render("contact", {
           title: "Contacto",
           data: req.body,
-          message: "❌ Error de verificación reCAPTCHA, inténtalo nuevamente.",
+          message: "Error de verificación reCAPTCHA, inténtalo nuevamente.",
           success: false,
           errors: ["⚠ reCAPTCHA inválido"],
         });
@@ -109,7 +107,7 @@ export class ContactsController {
         return res.render("contact", {
           title: "Contacto",
           data: { nombre: "", email: "", comentario: "" },
-          message: "✅ ¡Mensaje enviado con éxito!",
+          message: "¡Mensaje enviado con éxito!",
           success: true,
           errors: [],
         });
@@ -117,13 +115,13 @@ export class ContactsController {
         return res.status(500).render("contact", {
           title: "Contacto",
           data: req.body,
-          message: "❌ Error al guardar el mensaje.",
+          message: "Error al guardar el mensaje.",
           success: false,
           errors: [],
         });
       }
     } catch (err) {
-      console.error("❌ Error al procesar el contacto:", err);
+      console.error("Error al procesar el contacto:", err);
       return next(err);
     }
   }
@@ -138,7 +136,7 @@ export class ContactsController {
 
       return res.render("admin_contacts", { contactos });
     } catch (err) {
-      console.error("❌ Error obteniendo los contactos:", err);
+      console.error("Error obteniendo los contactos:", err);
       return next(err);
     }
   }
