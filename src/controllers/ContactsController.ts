@@ -3,10 +3,8 @@ import { validationResult } from "express-validator";
 import { sendEmail } from "../utils/emailServices"; 
 import { getUserLocation } from "../utils/geolocation";     
 import axios from "axios";
-import fetch from "node-fetch";
 import { ContactsModel } from "../models/ContactsModel";  
 
-// Definir la estructura esperada de la respuesta de reCAPTCHA
 interface RecaptchaResponse {
   success: boolean;
   challenge_ts?: string;
@@ -16,9 +14,8 @@ interface RecaptchaResponse {
 
 export class ContactsController {
   private static model = new ContactsModel();
-  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "6LcbuFIrAAAAANfO9KKpqAO_WkyCwB97yiBnzfJB";
+  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET; // 🔹 Eliminado valor estático
 
-  // Página de contacto
   static async contactPage(req: Request, res: Response) {
     res.render("contact", {
       title: "Contacto",
@@ -29,35 +26,38 @@ export class ContactsController {
     });
   }
 
-  // Validar reCAPTCHA con Google
   private static async validateRecaptcha(recaptchaToken: string): Promise<boolean> {
     try {
       if (!recaptchaToken) {
-        console.error(" Error: reCAPTCHA token no recibido.");
+        console.error("❌ Error: reCAPTCHA token no recibido.");
         return false;
       }
 
-      const params = new URLSearchParams();
-      params.append("secret", ContactsController.RECAPTCHA_SECRET);
-      params.append("response", recaptchaToken);
+      console.log(`🔍 Token recibido: ${recaptchaToken}`);
+      console.log(`🔍 Clave secreta usada: ${ContactsController.RECAPTCHA_SECRET}`);
 
-      console.log(`🔍 Verificando reCAPTCHA con Google: response=${recaptchaToken}`);
+      const params = new URLSearchParams();
+      params.append("secret", ContactsController.RECAPTCHA_SECRET || "");
+      params.append("response", recaptchaToken);
 
       const recaptchaVerify = await axios.post("https://www.google.com/recaptcha/api/siteverify", params, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
       const recaptchaData: RecaptchaResponse = recaptchaVerify.data;
-      console.log("Respuesta de Google reCAPTCHA:", recaptchaData);
+      console.log("🔍 Respuesta completa de Google reCAPTCHA:", recaptchaData);
+
+      if (!recaptchaData.success) {
+        console.error("❌ Error de reCAPTCHA:", recaptchaData["error-codes"]);
+      }
 
       return recaptchaData.success;
     } catch (error) {
-      console.error("Error al validar reCAPTCHA:", error);
+      console.error("❌ Error al validar reCAPTCHA:", error);
       return false;
     }
   }
 
-  //  Agregar un contacto después de validar reCAPTCHA
   static async add(req: Request, res: Response, next: NextFunction) {
     console.log("📌 Datos recibidos en el formulario:", req.body);
 
@@ -75,7 +75,9 @@ export class ContactsController {
     }
 
     try {
-      const { nombre, email, comentario, recaptchaToken } = req.body;
+      // 🔹 Corrección en la captura del token reCAPTCHA
+      const { nombre, email, comentario } = req.body;
+      const recaptchaToken = req.body["g-recaptcha-response"] || req.body.recaptchaToken;
 
       if (!nombre || !email || !comentario || !recaptchaToken) {
         return res.status(400).json({
@@ -86,13 +88,15 @@ export class ContactsController {
 
       const isRecaptchaValid = await ContactsController.validateRecaptcha(recaptchaToken);
       if (!isRecaptchaValid) {
-        return res.status(400).json({
+        return res.status(400).render("contact", {
+          title: "Contacto",
+          data: req.body,
+          message: "❌ Error de verificación reCAPTCHA, inténtalo nuevamente.",
           success: false,
-          message: "Fallo en la verificación de reCAPTCHA.",
+          errors: ["⚠ reCAPTCHA inválido"],
         });
       }
 
-      // Capturar la IP y ubicación
       const ip = req.headers["x-forwarded-for"]?.toString() || req.socket.remoteAddress || "0.0.0.0";  
       const pais = await getUserLocation(ip);  
       const fechaHora = new Date().toISOString();
@@ -105,7 +109,7 @@ export class ContactsController {
         return res.render("contact", {
           title: "Contacto",
           data: { nombre: "", email: "", comentario: "" },
-          message: "¡Mensaje enviado con éxito!",
+          message: "✅ ¡Mensaje enviado con éxito!",
           success: true,
           errors: [],
         });
@@ -113,18 +117,17 @@ export class ContactsController {
         return res.status(500).render("contact", {
           title: "Contacto",
           data: req.body,
-          message: "Error al guardar el mensaje.",
+          message: "❌ Error al guardar el mensaje.",
           success: false,
           errors: [],
         });
       }
     } catch (err) {
-      console.error("Error al procesar el contacto:", err);
+      console.error("❌ Error al procesar el contacto:", err);
       return next(err);
     }
   }
 
-  // Obtener todos los contactos
   static async index(req: Request, res: Response, next: NextFunction) {
     try {
       const lista = await ContactsController.model.getAllContacts(); 
@@ -135,7 +138,7 @@ export class ContactsController {
 
       return res.render("admin_contacts", { contactos });
     } catch (err) {
-      console.error("Error obteniendo los contactos:", err);
+      console.error("❌ Error obteniendo los contactos:", err);
       return next(err);
     }
   }
