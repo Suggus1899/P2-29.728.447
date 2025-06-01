@@ -37,7 +37,7 @@
             </ul>
         <% } %>
 
-        <form id="contact-form" action="/contact/add" method="POST">
+        <form action="/contact/add" method="POST">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" value="<%= data?.nombre || '' %>" required>
@@ -63,8 +63,8 @@
                 <textarea id="comment" name="comment" rows="5" required><%= data?.comment || '' %></textarea>
             </div>
 
-            <!-- 🔹 Integración de reCAPTCHA v3 sin script inline -->
-            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+            <!-- 🔹 Integración de Google reCAPTCHA con clave de sitio -->
+            <div class="g-recaptcha" data-sitekey="6LcbuFIrAAAAAE0975tRp_b32HO3D3WbrMmbVkXB"></div>
 
             <button type="submit" class="button">Enviar Mensaje</button>
             <a href="/admin/contacts" class="button admin-access">🔧 Ver contactos registrados</a>  
@@ -99,8 +99,7 @@
         <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LcbuFIrAAAAAE0975tRp_b32HO3D3WbrMmbVkXB"></script>
-    <script src="/scripts/recaptcha.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/scripts/scripts.js"></script>
 </body>
 </html>
