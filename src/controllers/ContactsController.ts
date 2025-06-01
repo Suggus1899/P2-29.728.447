@@ -16,7 +16,7 @@ interface RecaptchaResponse {
 
 export class ContactsController {
   private static model = new ContactsModel();
-  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "TU_CLAVE_RECAPTCHA";
+  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "6LcbuFIrAAAAANfO9KKpqAO_WkyCwB97yiBnzfJB";
 
   // Página de contacto
   static async contactPage(req: Request, res: Response) {
