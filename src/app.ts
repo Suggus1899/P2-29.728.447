@@ -20,15 +20,15 @@ app.use(
             directives: {
                 "default-src": ["'self'", "https://unpkg.com"],
                 "script-src": [
-                    "'self'", 
-                    "https://unpkg.com", 
+                    "'self'",
+                    "https://unpkg.com",
                     "https://www.google.com/recaptcha/",
                     "https://www.gstatic.com/recaptcha/",
                     "https://www.google.com"
                 ],
                 "script-src-elem": [
-                    "'self'", 
-                    "https://unpkg.com", 
+                    "'self'",
+                    "https://unpkg.com",
                     "https://www.google.com/recaptcha/",
                     "https://www.gstatic.com/recaptcha/",
                     "https://www.google.com"
@@ -36,11 +36,17 @@ app.use(
                 "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
                 "font-src": ["'self'", "https://fonts.gstatic.com"],
                 "frame-src": [
-                    "'self'", 
-                    "https://www.google.com/recaptcha/", 
+                    "'self'",
+                    "https://www.google.com/recaptcha/",
                     "https://www.gstatic.com/recaptcha/",
                     "https://www.google.com"
-                ] 
+                ],
+                "connect-src": [
+                    "'self'",
+                    "https://www.google.com/recaptcha/",
+                    "https://www.gstatic.com/recaptcha/",
+                    "https://www.google.com"
+                ]
             }
         }
     })
@@ -51,6 +57,9 @@ app.use(express.static(path.join(__dirname, "../public"), {
     setHeaders: (res, filePath) => {
         if (filePath.endsWith(".css")) {
             res.setHeader("Content-Type", "text/css");
+        }
+        if (filePath.endsWith(".js")) {
+            res.setHeader("Content-Type", "application/javascript");
         }
     }
 }));
