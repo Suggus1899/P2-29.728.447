@@ -13,7 +13,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
-// Middleware de seguridad (helmet) con ajuste de CSP para permitir Google reCAPTCHA
+// Middleware de seguridad (helmet) con ajuste de CSP para permitir Google reCAPTCHA v2
 app.use(
     helmet({
         contentSecurityPolicy: {
@@ -30,16 +30,22 @@ app.use(
                     "'self'",
                     "https://www.google.com/recaptcha/",
                     "https://www.gstatic.com/recaptcha/",
-                    "https://www.google.com"
+                    "https://www.google.com",
+                    "https://www.google.com/recaptcha/api/siteverify"
                 ],
-                "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-                "font-src": ["'self'", "https://fonts.gstatic.com"],
                 "frame-src": [
                     "'self'",
                     "https://www.google.com/recaptcha/",
                     "https://www.gstatic.com/recaptcha/",
                     "https://www.google.com"
-                ]
+                ],
+                "img-src": [
+                    "'self'",
+                    "https://www.google.com/recaptcha/",
+                    "https://www.gstatic.com/recaptcha/"
+                ],
+                "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+                "font-src": ["'self'", "https://fonts.gstatic.com"]
             }
         }
     })
