@@ -2,12 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import { sendEmail } from "../utils/emailServices"; 
 import { getUserLocation } from "../utils/geolocation";     
-import axios from "axios";
+import { RecaptchaEnterpriseServiceClient } from "@google-cloud/recaptcha-enterprise";
 import { ContactsModel } from "../models/ContactsModel";  
 
 export class ContactsController {
   private static model = new ContactsModel();
-  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
+  private static readonly PROJECT_ID = "lovedoc-463000";
+  private static readonly RECAPTCHA_SITE_KEY = "6LcBJ2ErAAAAAF8BMn0ZexpWjAy8O_DFEvmFoVPC";
 
   static async contactPage(req: Request, res: Response) {
     res.render("contact", {
@@ -19,22 +20,47 @@ export class ContactsController {
     });
   }
 
-  private static async validateRecaptcha(recaptchaToken: string): Promise<boolean> {
-    if (!recaptchaToken) {
-      console.error("Error: reCAPTCHA token no recibido.");
-      return false;
+  private static async validateRecaptcha(token: string, action: string): Promise<number | null> {
+    if (!token) {
+      console.error("❌ Error: reCAPTCHA token no recibido.");
+      return null;
     }
 
     try {
-      const response = await axios.post("https://www.google.com/recaptcha/api/siteverify", {
-        secret: ContactsController.RECAPTCHA_SECRET,
-        response: recaptchaToken,
-      });
+      const client = new RecaptchaEnterpriseServiceClient();
+      const projectPath = client.projectPath(ContactsController.PROJECT_ID);
 
-      return response.data.success;
+      const request = {
+        assessment: {
+          event: {
+            token,
+            siteKey: ContactsController.RECAPTCHA_SITE_KEY,
+          },
+        },
+        parent: projectPath,
+      };
+
+      const [response] = await client.createAssessment(request);
+
+      if (!response || !response.tokenProperties || !response.tokenProperties.valid) {
+        console.error(`❌ Token inválido: ${response?.tokenProperties?.invalidReason ?? "No especificado"}`);
+        return null;
+      }
+
+      if (response.tokenProperties.action !== action) {
+        console.error("❌ La acción del token no coincide con la esperada.");
+        return null;
+      }
+
+      const riskScore = response.riskAnalysis?.score ?? null;
+      console.log(`✅ Puntuación de reCAPTCHA: ${riskScore}`);
+
+      response.riskAnalysis?.reasons?.forEach(reason => console.log(reason));
+
+      return riskScore;
     } catch (error) {
-      console.error("Error al validar reCAPTCHA:", error);
-      return false;
+      console.error("❌ Error al validar reCAPTCHA:", error);
+      return null;
     }
   }
 
@@ -54,23 +80,10 @@ export class ContactsController {
 
     const { nombre, email, comentario } = req.body;
     const recaptchaToken = req.body["g-recaptcha-response"];
+    const recaptchaScore = await ContactsController.validateRecaptcha(recaptchaToken, "CONTACT");
 
-    if (!nombre || !email || !comentario || !recaptchaToken) {
-      return res.status(400).json({
-        success: false,
-        message: "Faltan campos obligatorios o reCAPTCHA no verificado.",
-      });
-    }
-
-    const isRecaptchaValid = await ContactsController.validateRecaptcha(recaptchaToken);
-    if (!isRecaptchaValid) {
-      return res.status(400).render("contact", {
-        title: "Contacto",
-        data: req.body,
-        message: "ME rror de verificación reCAPTCHA, inténtalo nuevamente.",
-        success: false,
-        errors: ["GreCAPTCHA inválido"],
-      });
+    if (recaptchaScore === null || recaptchaScore < 0.5) {
+      return res.status(400).json({ success: false, message: "❌ reCAPTCHA falló. Posible actividad sospechosa." });
     }
 
     try {
@@ -101,6 +114,22 @@ export class ContactsController {
       }
     } catch (err) {
       console.error("❌ Error al procesar el contacto:", err);
+      return next(err);
+    }
+  }
+
+  // 🔹 Nueva función index() para listar los contactos en /admin/contacts
+  static async index(req: Request, res: Response, next: NextFunction) {
+    try {
+      const lista = await ContactsController.model.getAllContacts();
+      const contactos = lista.map(contacto => ({
+        ...contacto,
+        created_at: new Date(contacto.created_at),
+      }));
+
+      return res.render("admin_contacts", { contactos });
+    } catch (err) {
+      console.error("❌ Error obteniendo los contactos:", err);
       return next(err);
     }
   }
