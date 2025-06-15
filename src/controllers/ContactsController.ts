@@ -67,7 +67,7 @@ export class ContactsController {
       return res.status(400).render("contact", {
         title: "Contacto",
         data: req.body,
-        message: "MError de verificación reCAPTCHA, inténtalo nuevamente.",
+        message: "ME rror de verificación reCAPTCHA, inténtalo nuevamente.",
         success: false,
         errors: ["GreCAPTCHA inválido"],
       });
