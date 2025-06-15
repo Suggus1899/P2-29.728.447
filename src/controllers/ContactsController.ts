@@ -69,7 +69,7 @@ export class ContactsController {
         data: req.body,
         message: "MError de verificación reCAPTCHA, inténtalo nuevamente.",
         success: false,
-        errors: ["⚠ reCAPTCHA inválido"],
+        errors: ["GreCAPTCHA inválido"],
       });
     }
 
