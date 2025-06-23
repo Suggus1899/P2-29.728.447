@@ -1,6 +1,5 @@
 import { open, Database } from "sqlite";
 import sqlite3 from "sqlite3";
-import crypto from "crypto";
 
 export interface Payment {
   id?: number;
@@ -10,7 +9,6 @@ export interface Payment {
   cardNumber: string;
   expMonth: string;
   expYear: string;
-  cvv?: string;
   amount: number;
   currency: string;
   created_at: string;
@@ -34,7 +32,6 @@ export class PaymentModel {
             cardNumber TEXT NOT NULL,
             expMonth TEXT NOT NULL,
             expYear TEXT NOT NULL,
-            cvv TEXT,
             amount REAL NOT NULL,
             currency TEXT NOT NULL,
             created_at TEXT DEFAULT (DATETIME('now'))
@@ -45,35 +42,37 @@ export class PaymentModel {
     }
   }
 
-  // Encripta el número de tarjeta con seguridad mejorada
-  private static encryptCardNumber(cardNumber: string): string {
-    return crypto.createHash("sha512").update(cardNumber.replace(/\s+/g, "")).digest("hex");
-  }
-
   // Agregar un nuevo pago
   static async addPayment(p: Payment): Promise<void> {
-    const db = await PaymentModel.dbPromise;
-    const encryptedCardNumber = PaymentModel.encryptCardNumber(p.cardNumber);
+    try {
+      const db = await PaymentModel.dbPromise;
 
-    await db.run(
-      `INSERT INTO payments (service, email, cardName, cardNumber, expMonth, expYear, cvv, amount, currency, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      p.service,
-      p.email,
-      p.cardName,
-      encryptedCardNumber,
-      p.expMonth,
-      p.expYear,
-      p.cvv ?? null,
-      p.amount,
-      p.currency,
-      p.created_at ?? new Date().toISOString()
-    );
+      await db.run(
+        `INSERT INTO payments (service, email, cardName, cardNumber, expMonth, expYear, amount, currency, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        p.service,
+        p.email,
+        p.cardName,
+        p.cardNumber, // Ya viene encriptado desde el controlador
+        p.expMonth,
+        p.expYear,
+        p.amount,
+        p.currency,
+        p.created_at ?? new Date().toISOString()
+      );
+    } catch (error) {
+      console.error("❌ Error al insertar el pago en SQLite:", error);
+      throw error;
+    }
   }
 
-  // ✅ Obtener todos los pagos
+  // Obtener todos los pagos
   static async getAllPayments(): Promise<Payment[]> {
     const db = await PaymentModel.dbPromise;
-    return db.all<Payment[]>(`SELECT id, service, email, cardName, expMonth, expYear, amount, currency, created_at FROM payments ORDER BY created_at DESC`);
+    return db.all<Payment[]>(`
+      SELECT id, service, email, cardName, expMonth, expYear, amount, currency, created_at
+      FROM payments
+      ORDER BY created_at DESC
+    `);
   }
 }

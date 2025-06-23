@@ -7,52 +7,44 @@ import { PaymentModel } from "../models/PaymentsModel";
 
 const router = Router();
 
-// Rutas generales optimizadas
+// Rutas generales
 const pages: { path: string; title: string }[] = ["index", "about", "services", "traductions"].map((page) => ({
   path: `/${page === "index" ? "" : page}`,
   title: `${capitalize(page)} - LoveDoc`,
 }));
 
 pages.forEach(({ path, title }) => {
-  router.get(path, async (req: Request, res: Response) => {
+  router.get(path, (req: Request, res: Response) => {
     res.render(path.replace("/", ""), { title });
   });
 });
 
-// Rutas de contacto con validación mejorada
+// Contacto
 router.get("/contact", ContactsController.contactPage);
-router.post("/contact/add", validateContactMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    await ContactsController.add(req, res, next); 
-  } catch (err) {
-    console.error("Error en el formulario de contacto:", err);
-    next(new Error("Error al procesar el formulario de contacto"));
-  }
-});
+router.post("/contact/add", validateContactMiddleware, ContactsController.add);
 router.get("/admin/contacts", ContactsController.index);
 
-// Rutas de pago con manejo de errores mejorado
-router.get("/payment", async (req: Request, res: Response) => {
+// Pagos
+router.get("/payment", (req: Request, res: Response) => {
   res.render("payment", {
     title: "Pago",
     message: "",
     success: false,
     errors: [],
-    data: { cardName: "", email: "", cardNumber: "", expMonth: "", expYear: "", amount: "" },
+    data: {
+      cardName: "",
+      email: "",
+      cardNumber: "",
+      expMonth: "",
+      expYear: "",
+      amount: ""
+    }
   });
 });
 
-router.post("/payment/process", validatePaymentMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    await PaymentController.process(req, res, next);
-  } catch (err) {
-    console.error("Error en el proceso de pago:", err);
-    const errorMessage: string = err instanceof Error ? err.message : "Error interno desconocido";
-    next(new Error(errorMessage));
-  }
-});
+router.post("/payment/process", validatePaymentMiddleware, PaymentController.process);
 
-// Ruta de administración de pagos con corrección en `message`
+// Administración de pagos
 router.get("/admin/payments", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payments = await PaymentModel.getAllPayments();
@@ -69,7 +61,7 @@ router.get("/admin/payments", async (req: Request, res: Response, next: NextFunc
   }
 });
 
-// Middleware de manejo de errores mejorado
+// Errores 404
 router.use((req: Request, res: Response) => {
   res.status(404).render("error", {
     errorCode: 404,
@@ -77,6 +69,7 @@ router.use((req: Request, res: Response) => {
   });
 });
 
+// Errores generales
 router.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error("❌ Error en la aplicación:", err);
   res.status(err.status || 500).render("error", {

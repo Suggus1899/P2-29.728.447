@@ -1,7 +1,8 @@
 import express from "express";
 import path from "path";
 import routes from "./routes/routes";
-import helmet from "helmet"; // Protección adicional
+import helmet from "helmet";
+import crypto from "crypto"; // Generar nonce para CSP más seguro
 
 const app = express();
 
@@ -13,43 +14,33 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
-// Middleware de seguridad (helmet) con ajuste de CSP para permitir Google reCAPTCHA v2
-app.use(
+// Middleware de seguridad (helmet) con ajuste de CSP
+app.use((req, res, next) => {
+    const nonce = crypto.randomBytes(16).toString("base64");
+    res.locals.nonce = nonce; // Enviar el nonce a las vistas
+
     helmet({
         contentSecurityPolicy: {
             directives: {
                 "default-src": ["'self'", "https://unpkg.com"],
                 "script-src": [
                     "'self'",
+                    `'nonce-${nonce}'`,
                     "https://unpkg.com",
                     "https://www.google.com/recaptcha/",
                     "https://www.gstatic.com/recaptcha/",
                     "https://www.google.com"
                 ],
-                "connect-src": [
-                    "'self'",
-                    "https://www.google.com/recaptcha/",
-                    "https://www.gstatic.com/recaptcha/",
-                    "https://www.google.com",
-                    "https://www.google.com/recaptcha/api/siteverify"
-                ],
-                "frame-src": [
-                    "'self'",
-                    "https://www.google.com/recaptcha/",
-                    "https://www.gstatic.com/recaptcha/",
-                    "https://www.google.com"
-                ],
-                "img-src": [
-                    "'self'",
-                    "https://www.google.com/recaptcha/",
-                    "https://www.gstatic.com/recaptcha/"
-                ],
+                "script-src-elem": ["'self'", `'nonce-${nonce}'`, "https://unpkg.com", "https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"],
+                "connect-src": ["'self'", "https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/", "https://www.google.com", "https://www.google.com/recaptcha/api/siteverify"],
+                "frame-src": ["'self'", "https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/", "https://www.google.com"],
+                "img-src": ["'self'", "https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"],
                 "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
                 "font-src": ["'self'", "https://fonts.gstatic.com"]
             }
         }
-    })
-);
+    })(req, res, next);
+});
 
 // Archivos estáticos con manejo seguro
 app.use(express.static(path.join(__dirname, "../public"), {
@@ -63,10 +54,10 @@ app.use(express.static(path.join(__dirname, "../public"), {
     }
 }));
 
-// Uso de rutas con prefijo para mayor control
+// Uso de rutas con prefijo
 app.use("/", routes);
 
-// Manejo global de errores
+// Manejo de errores global
 app.use((req, res) => {
     res.status(404).render("error", {
         errorCode: 404,
@@ -74,5 +65,5 @@ app.use((req, res) => {
     });
 });
 
-// Exportar la configuración del servidor
+// Exportar configuración del servidor
 export default app;

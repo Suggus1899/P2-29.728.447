@@ -1,8 +1,16 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "ES6",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-
+    "target": "es2017",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "lib": [
+      "es2017",
+      "dom"
+    ],   
+    
+    "types": [
+      "node",                                          /* Include type definitions for Node.js. */
+      "jest"                                           /* Include type definitions for Jest testing framework. */
+    ],
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
     "rootDir": "./src",                                  /* Specify the root folder within your source files. */

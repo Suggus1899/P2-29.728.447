@@ -1,16 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import { PaymentModel, Payment } from "../models/PaymentsModel";
 import crypto from "crypto";
+import axios from "axios";
 
 export class PaymentController {
   private static model = new PaymentModel();
 
-  // 🔹 Encriptación del número de tarjeta (SHA-256)
   private static encryptCardNumber(cardNumber: string): string {
     return crypto.createHash("sha256").update(cardNumber.replace(/\s+/g, "")).digest("hex");
   }
 
-  // 🔹 Validaciones de pago
   private static validatePayment(data: Record<string, string>): string[] {
     const { service, email, cardName, cardNumber, expMonth, expYear, cvv, amount, currency } = data;
     const errors: string[] = [];
@@ -26,7 +25,6 @@ export class PaymentController {
     const monthNum = Number(expMonth);
     const now = new Date();
 
-    // Validación de tarjeta expirada
     if (!expYear || yearNum < now.getFullYear() || (yearNum === now.getFullYear() && monthNum < now.getMonth() + 1)) {
       errors.push("La tarjeta está expirada.");
     }
@@ -38,7 +36,6 @@ export class PaymentController {
     return errors;
   }
 
-  // Procesa el pago (ahora `static`)
   static async process(req: Request, res: Response, next: NextFunction) {
     console.log("📌 Datos recibidos en el formulario de pago:", req.body);
 
@@ -55,11 +52,32 @@ export class PaymentController {
     try {
       const { service, email, cardName, cardNumber, expMonth, expYear, cvv, amount, currency } = req.body;
 
+      // Llamada a la API externa de pago
+      const apiResponse = await axios.post("https://fakepayment.onrender.com/api/pay", {
+        amount: parseFloat(amount),
+        currency,
+        email,
+      }, {
+        headers: {
+          Authorization: `Bearer ${process.env.FAKEPAYMENT_API_KEY}`,
+        },
+        timeout: 5000 // por si se cuelga
+      });
+
+      if (!apiResponse.data?.success) {
+        return res.status(400).render("payment", {
+          message: "❌ La API de pago rechazó la transacción.",
+          success: false,
+          errors: ["Transacción rechazada por el proveedor de pagos."],
+          data: req.body,
+        });
+      }
+
       const pago: Payment = {
         service,
         email,
         cardName,
-        cardNumber: PaymentController.encryptCardNumber(cardNumber), 
+        cardNumber: PaymentController.encryptCardNumber(cardNumber),
         expMonth,
         expYear,
         cvv,
@@ -72,14 +90,14 @@ export class PaymentController {
 
       return res.render("payment", {
         success: true,
-        message: "¡Pago realizado con éxito!",
+        message: "✅ ¡Pago procesado exitosamente!",
         errors: [],
         data: {},
       });
     } catch (err) {
-      console.error("Error al registrar pago:", err);
+      console.error("❌ Error al conectar con la API externa:", err);
       return res.status(500).render("payment", {
-        message: "Error interno del servidor.",
+        message: "Error interno o fallo en la conexión con la pasarela de pago.",
         success: false,
         errors: [],
         data: req.body,
@@ -87,7 +105,6 @@ export class PaymentController {
     }
   }
 
-  // Obtiene la lista de pagos (ahora `static`)
   static async index(req: Request, res: Response) {
     try {
       const payments = await PaymentModel.getAllPayments() || [];
