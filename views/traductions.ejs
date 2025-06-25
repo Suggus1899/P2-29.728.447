@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traducciones</title>
-    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/traductions.css">
 </head>
 <body>
     <header>
         <h1>Traducción de documentos</h1>
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="/">Inicio</a></li>
                 <li><a href="/about">Sobre nosotros</a></li>
                 <li><a href="/services">Servicios</a></li>
                 <li><a href="/traductions">Traducciones</a></li>
                 <li><a href="/contact">Contacto</a></li>
+                <li><a href="/payment" class="payment-button">💳 Pago</a></li>
             </ul>
+            <div class="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
 
@@ -24,6 +30,44 @@
         <section class="traductions-intro">
             <h2>Convierte tu documento en cualquier idioma</h2>
             <p>Sube tu archivo, selecciona el idioma de destino y obtén una traducción rápida y precisa.</p>
+        </section>
+
+        <section class="translation-types">
+            <h2>Tipos de Traducción</h2>
+            <div class="types-container">
+                <div class="type">
+                    <h3>📜 Traducción estándar</h3>
+                    <p>Rápida y automática, ideal para textos simples.</p>
+                </div>
+                <div class="type">
+                    <h3>⚖ Traducción legal</h3>
+                    <p>Especializada en contratos, certificados y documentos jurídicos.</p>
+                </div>
+                <div class="type">
+                    <h3>📘 Traducción académica</h3>
+                    <p>Artículos científicos, investigaciones y tesis con revisión experta.</p>
+                </div>
+                <div class="type">
+                    <h3>🏢 Traducción corporativa</h3>
+                    <p>Manuales, informes y documentos empresariales con formato profesional.</p>
+                </div>
+                <div class="type">
+                    <h3>🔍 Revisión y corrección</h3>
+                    <p>Corrección gramatical y adaptación precisa al idioma destino.</p>
+                </div>
+                <div class="type">
+                    <h3>🛡 Traducción certificada</h3>
+                    <p>Documentos con validez legal y certificación oficial.</p>
+                </div>
+                <div class="type">
+                    <h3>💡 Localización de contenido</h3>
+                    <p>Adaptación de sitios web y software para distintos mercados.</p>
+                </div>
+                <div class="type">
+                    <h3>🚀 Traducción en tiempo real</h3>
+                    <p>Traducción instantánea para reuniones, chats y conferencias online.</p>
+                </div>
+            </div>
         </section>
 
         <section class="upload-section">
@@ -81,5 +125,6 @@
     <footer>
         <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
     </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

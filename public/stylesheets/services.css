@@ -1,0 +1,162 @@
+/* Variables de color */
+:root {
+    --color1: #cc2649;
+    --color2: #992c4b;
+    --color3: #66324c;
+    --color4: #33384e;
+    --color5: #003e4f;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color4);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    background: var(--color1);
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color2);
+    padding: 10px 20px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+/* Menú hamburguesa */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger-menu .bar {
+    background: white;
+    height: 4px;
+    width: 30px;
+    margin: 5px;
+}
+
+/* Sección de introducción */
+.services-intro {
+    text-align: center;
+    background: var(--color3);
+    padding: 40px;
+    border-radius: 10px;
+}
+
+/* Ventajas */
+.service-advantages {
+    background: var(--color5);
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.service-advantages ul {
+    list-style: none;
+    padding: 0;
+}
+
+.service-advantages li {
+    padding: 10px;
+    font-size: 1.1rem;
+}
+
+/* Tabla de precios */
+.pricing-table {
+    text-align: center;
+    background: var(--color2);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color3);
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid white;
+    text-align: center;
+}
+
+th {
+    background: var(--color1);
+}
+
+/* Testimonios */
+.testimonials {
+    text-align: center;
+    background: var(--color3);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.testimonial {
+    background: var(--color1);
+    padding: 20px;
+    border-radius: 5px;
+    margin: 15px auto;
+    max-width: 600px;
+}
+
+/* Contacto */
+.service-contact {
+    text-align: center;
+    background: var(--color5);
+    padding: 40px;
+    border-radius: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--color1);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: var(--color2);
+        padding: 10px;
+        position: absolute;
+        top: 60px;
+        width: 100%;
+    }
+
+    .nav-links li {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+}

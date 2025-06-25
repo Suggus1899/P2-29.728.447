@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
 </head>
 <body>
     <header>
         <h1>Bienvenido a LoveDoc</h1>
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="/">Inicio</a></li>
                 <li><a href="/about">Sobre nosotros</a></li>
                 <li><a href="/services">Servicios</a></li>
                 <li><a href="/traductions">Traducciones</a></li>
                 <li><a href="/contact">Contacto</a></li>
+                <li><a href="/payment" class="payment-button">Pago</a></li>
             </ul>
+            <div class="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
 
@@ -105,26 +111,27 @@
             </div>
         </section>
 
-        <!-- Formulario de contacto -->
-        <section class="contact">
-            <h2>Contáctanos</h2>
-            <form action="/contact" method="POST">
-                <label for="name">Nombre:</label>
-                <input type="text" id="name" name="name" required>
-                
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="message">Mensaje:</label>
-                <textarea id="message" name="message" required></textarea>
-
-                <button type="submit">Enviar</button>
-            </form>
+        <!-- Testimonios -->
+        <section class="testimonials">
+            <h2>Lo que dicen nuestros usuarios</h2>
+            <div class="testimonial">
+                <p>"LoveDoc ha transformado la forma en que traducimos documentos. ¡Increíble!"</p>
+                <p><strong>María G.</strong></p>
+            </div>
+            <div class="testimonial">
+                <p>"Rápido, fácil y preciso. No puedo pedir más."</p>
+                <p><strong>John D.</strong></p>
+            </div>
+            <div class="testimonial">
+                <p>"El mejor servicio de traducción que he usado. ¡Altamente recomendado!"</p>
+                <p><strong>Li W.</strong></p>
+            </div>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
     </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

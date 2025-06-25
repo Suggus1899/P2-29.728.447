@@ -4,31 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error - LoveDoc</title>
-    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/error.css">
 </head>
 <body>
     <header>
         <h1>¡Ups! Algo salió mal</h1>
-        <nav>
-            <ul>
+       <nav>
+            <ul class="nav-links">
                 <li><a href="/">Inicio</a></li>
                 <li><a href="/about">Sobre nosotros</a></li>
                 <li><a href="/services">Servicios</a></li>
                 <li><a href="/traductions">Traducciones</a></li>
                 <li><a href="/contact">Contacto</a></li>
+                <li><a href="/payment" class="payment-button">💳 Pago</a></li>
             </ul>
+            <div class="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
 
     <main class="error">
         <h2><%= errorCode %> - <%= errorMessage %></h2>
-        <p>Lo sentimos, parece que algo no está funcionando correctamente.</p>
-        <p>Puedes intentar volver a la <a href="/">página de inicio</a> o contactar con nuestro soporte.</p>
+        <p>¡Ups! Algo no está funcionando como debería, pero no te preocupes, **no es tu culpa**.</p>
+        <p>Puede que haya un problema técnico, pero estamos en ello. Puedes intentar volver a la <a href="/">página de inicio</a> o contactar con nuestro soporte.</p>
         <img src="/images/error.png" alt="Error LoveDoc">
     </main>
 
     <footer>
         <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
     </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

@@ -1,22 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
+    const hamburger = document.querySelector(".hamburger-menu");
+    const navLinks = document.querySelector(".nav-links");
 
-    form.addEventListener("submit", (event) => {
-        const email = document.getElementById("email").value.trim();
-        const name = document.getElementById("name").value.trim();
-        const lastname = document.getElementById("lastname").value.trim();
-        const comment = document.getElementById("comment").value.trim();
+    if (hamburger && navLinks) {
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
 
-        let errors = [];
+            if (navLinks.classList.contains("active")) {
+                navLinks.style.transform = "translateX(0)";
+                navLinks.style.opacity = "1";
+            } else {
+                navLinks.style.transform = "translateX(-100%)";
+                navLinks.style.opacity = "0";
+            }
+        });
 
-        if (!email.includes("@")) errors.push("El correo no es válido.");
-        if (name.length < 2) errors.push("El nombre debe tener al menos 2 caracteres.");
-        if (lastname.length < 2) errors.push("El apellido debe tener al menos 2 caracteres.");
-        if (comment.length < 20) errors.push("El mensaje debe tener al menos 10 caracteres.");
-
-        if (errors.length > 0) {
-            event.preventDefault();
-            alert(errors.join("\n")); // Muestra errores en un `alert()`
-        }
-    });
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.addEventListener("click", () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove("active");
+                    navLinks.style.transform = "translateX(-100%)";
+                    navLinks.style.opacity = "0";
+                }
+            });
+        });
+    } else {
+        console.error("❌ No se encontró el menú hamburguesa o los enlaces de navegación.");
+    }
 });

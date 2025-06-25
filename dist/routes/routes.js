@@ -1,20 +1,93 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const helpers_1 = require("../utils/helpers"); // Movemos la función a un módulo separado
+const helpers_1 = require("../utils/helpers");
+const validation_1 = require("../middlewares/validation");
+const ContactsController_1 = require("../controllers/ContactsController");
+const PaymentsController_1 = require("../controllers/PaymentsController");
+const PaymentsModel_1 = require("../models/PaymentsModel");
 const router = (0, express_1.Router)();
-// ✅ Rutas generales
-const pages = ['index', 'about', 'contact', 'services', 'traductions'];
-pages.forEach((page) => {
-    router.get(`/${page === 'index' ? '' : page}`, (req, res) => {
-        res.render(page, { title: `${(0, helpers_1.capitalize)(page)} - LoveDoc` });
-    });
+// Rutas generales optimizadas
+const pages = ['index', 'about', 'services', 'traductions'].map(page => ({
+    path: `/${page === 'index' ? '' : page}`,
+    title: `${(0, helpers_1.capitalize)(page)} - LoveDoc`
+}));
+pages.forEach(({ path, title }) => {
+    router.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        res.render(path.replace('/', ''), { title });
+    }));
 });
-// ✅ Middleware para manejo de errores con códigos dinámicos
+// Rutas de contacto con validación mejorada
+router.get('/contact', ContactsController_1.ContactsController.contactPage);
+router.post('/contact/add', validation_1.validateContactMiddleware, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield ContactsController_1.ContactsController.add(req, res);
+    }
+    catch (err) {
+        console.error("Error en el formulario de contacto:", err);
+        next(new Error("Error al procesar el formulario de contacto"));
+    }
+}));
+// Ruta de administración de contactos
+router.get('/admin/contacts', ContactsController_1.ContactsController.index);
+// Rutas de pago con manejo de errores mejorado
+router.get('/payment', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.render("payment", {
+        title: "Pago",
+        message: "",
+        success: false,
+        errors: [],
+        data: { cardName: "", email: "", cardNumber: "", expMonth: "", expYear: "", amount: "" }
+    });
+}));
+router.post('/payment/process', validation_1.validatePaymentMiddleware, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield PaymentsController_1.PaymentController.process(req, res, next);
+    }
+    catch (err) {
+        console.error("Error en el proceso de pago:", err);
+        const errorMessage = err instanceof Error ? err.message : "Error interno desconocido";
+        next(new Error(errorMessage));
+    }
+}));
+// Ruta de administración de pagos con corrección en `message`
+router.get('/admin/payments', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const payments = yield PaymentsModel_1.PaymentModel.getAllPayments();
+        res.render("admin/payments", {
+            payments,
+            message: payments.length > 0 ? "" : "No hay pagos registrados aún."
+        });
+    }
+    catch (err) {
+        console.error("Error al obtener pagos:", err);
+        res.status(500).render("admin/payments", {
+            payments: [],
+            message: "Error al cargar la lista de pagos."
+        });
+    }
+}));
+// Middleware de manejo de errores mejorado
 router.use((req, res) => {
     res.status(404).render('error', {
         errorCode: 404,
         errorMessage: `Página no encontrada: ${req.originalUrl}`,
+    });
+});
+router.use((err, req, res, next) => {
+    console.error("❌ Error en la aplicación:", err);
+    res.status(err.status || 500).render('error', {
+        errorCode: err.status || 500,
+        errorMessage: err.message || "Error interno del servidor",
     });
 });
 exports.default = router;
