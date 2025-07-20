@@ -1,39 +1,132 @@
-import { Request, Response } from 'express';
-import ContactsModel from '../models/ContactsModel';
+import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
+import { sendEmail } from "../utils/emailServices";
+import { getUserLocation } from "../utils/geolocation";
+import axios from "axios";
+import { ContactsModel } from "../models/ContactsModel";
 
 export class ContactsController {
-    // Renderiza la vista del formulario de contacto
-    static async contactPage(req: Request, res: Response) {
-        res.render("contact", { message: null });
+  private static model = new ContactsModel();
+  private static readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY || "";
+
+  static async contactPage(req: Request, res: Response) {
+    res.render("contact", {
+      title: "Contacto",
+      data: { nombre: "", email: "", comentario: "" },
+      message: null,
+      success: false,
+      errors: [],
+    });
+  }
+
+  private static async validateRecaptcha(token: string, action: string): Promise<number | null> {
+    if (!token) {
+      console.error("❌ Error: reCAPTCHA token no recibido.");
+      return null;
     }
 
-    // Guarda los datos del formulario en la base de datos
-    static async add(req: Request, res: Response) {
-        const { email, name, lastname, comment } = req.body;
-        const ip = req.ip ?? "0.0.0.0"; // Manejo seguro para evitar `undefined`
-        const date = new Date().toISOString();
+    try {
+      const response = await axios.post("https://www.google.com/recaptcha/api/siteverify", null, {
+        params: {
+          secret: ContactsController.RECAPTCHA_SECRET,
+          response: token,
+        },
+      });
 
-        try {
-            const result = await ContactsModel.saveContact(email, name, lastname, comment, ip, date);
-            if (result.success) {
-                res.render("contact", { message: "¡Tu mensaje ha sido enviado con éxito!" });
-            } else {
-                res.status(500).render("contact", { message: "Error al guardar el mensaje." });
-            }
-        } catch (error) {
-            console.error("Error en ContactsController.add:", error);
-            res.status(500).render("contact", { message: "Error interno del servidor." });
-        }
+      const data = response.data;
+
+      if (!data.success || data.action !== action) {
+        console.error(`❌ Falló la verificación reCAPTCHA. Acción esperada: ${action}, recibida: ${data.action}`);
+        return null;
+      }
+
+      console.log(`✅ reCAPTCHA válido. Score: ${data.score}`);
+      return data.score;
+    } catch (error) {
+      console.error("❌ Error al validar reCAPTCHA:", error);
+      return null;
+    }
+  }
+
+  static async add(req: Request, res: Response, next: NextFunction) {
+    console.log("📌 Datos recibidos:", req.body);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render("contact", {
+        title: "Contacto",
+        data: req.body,
+        message: "Corrige los errores del formulario.",
+        success: false,
+        errors: errors.array().map(err => err.msg),
+      });
     }
 
-    // Obtiene y muestra la lista de contactos en `/admin/contacts`
-    static async index(req: Request, res: Response) {
-        try {
-            const contacts = await ContactsModel.getContacts();
-            res.render("admin/contacts", { contacts });
-        } catch (error) {
-            console.error("Error en ContactsController.index:", error);
-            res.status(500).render("admin/contacts", { contacts: [], message: "Error al cargar los contactos." });
-        }
+    const { nombre, email, comentario } = req.body;
+    const recaptchaToken = req.body["g-recaptcha-response"];
+    const score = await ContactsController.validateRecaptcha(recaptchaToken, "CONTACT");
+
+    if (score === null || score < 0.3) {
+      return res.status(400).render("contact", {
+        title: "Contacto",
+        data: req.body,
+        message: "❌ El sistema ha detectado actividad sospechosa. Intenta nuevamente.",
+        success: false,
+        errors: ["reCAPTCHA sospechoso o inválido"],
+      });
     }
+
+    try {
+      const ip = req.headers["x-forwarded-for"]?.toString() || req.socket.remoteAddress || "0.0.0.0";
+      const pais = await getUserLocation(ip);
+      const fechaHora = new Date().toISOString();
+
+      const result = await ContactsController.model.addContact({
+        nombre,
+        email,
+        mensaje: comentario,
+        ip,
+        pais,
+        created_at: new Date(),
+      });
+
+      if (result.success) {
+        await sendEmail({ nombre, email, comment: comentario, ip, pais, date: fechaHora });
+
+        return res.render("contact", {
+          title: "Contacto",
+          data: { nombre: "", email: "", comentario: "" },
+          message: "✅ ¡Mensaje enviado con éxito!",
+          success: true,
+          errors: [],
+        });
+      } else {
+        return res.status(500).render("contact", {
+          title: "Contacto",
+          data: req.body,
+          message: "❌ Error al guardar el mensaje.",
+          success: false,
+          errors: [],
+        });
+      }
+    } catch (err) {
+      console.error("❌ Error al procesar el contacto:", err);
+      return next(err);
+    }
+  }
+
+  static async index(req: Request, res: Response, next: NextFunction) {
+    try {
+      const lista = await ContactsController.model.getAllContacts();
+      const contactos = lista.map(contacto => ({
+        ...contacto,
+        created_at: new Date(contacto.created_at),
+      }));
+
+      return res.render("admin_contacts", { contactos });
+    } catch (err) {
+      console.error("❌ Error obteniendo los contactos:", err);
+      return next(err);
+    }
+  }
 }

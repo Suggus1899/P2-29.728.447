@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos Registrados - LoveDoc</title>
+    <link rel="stylesheet" href="/stylesheets/admin_payment.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administración de Pagos</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/admin/contacts">Contactos</a></li>
+                <li><a href="/admin/payments">Pagos</a></li>
+                <li><a href="/payment">Realizar Pago</a></li>
+            </ul>
+            <div class="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Lista de Pagos Registrados</h2>
+
+        <% if (message) { %>
+            <p class="error-text"><%= message %></p>
+        <% } %>
+
+        <!-- Filtros y búsqueda -->
+        <section class="filters">
+          <form id="filtros-form" method="get" action="/admin/payments" style="display: flex; flex-wrap: wrap; gap: 1em; align-items: flex-end;">
+            <div>
+              <label for="servicio">Servicio:</label>
+              <input type="text" id="servicio" name="servicio" value="<%= filtros?.servicio || '' %>" placeholder="Servicio...">
+            </div>
+            <div>
+              <label for="email">Email:</label>
+              <input type="text" id="email" name="email" value="<%= filtros?.email || '' %>" placeholder="Email...">
+            </div>
+            <div>
+              <label for="estado">Estado:</label>
+              <select id="estado" name="estado">
+                <option value="todos" <%= filtros?.estado === 'todos' ? 'selected' : '' %>>Todos</option>
+                <option value="completado" <%= filtros?.estado === 'completado' ? 'selected' : '' %>>Completado</option>
+                <option value="fallido" <%= filtros?.estado === 'fallido' ? 'selected' : '' %>>Fallido</option>
+              </select>
+            </div>
+            <div>
+              <label for="fecha_inicio">Fecha inicio:</label>
+              <input type="date" id="fecha_inicio" name="fecha_inicio" value="<%= filtros?.fecha_inicio || '' %>">
+            </div>
+            <div>
+              <label for="fecha_fin">Fecha fin:</label>
+              <input type="date" id="fecha_fin" name="fecha_fin" value="<%= filtros?.fecha_fin || '' %>">
+            </div>
+            <div>
+              <button type="submit" class="filter-button">Filtrar</button>
+              <a href="/admin/payments" class="filter-button" style="background:#eee;color:#333;">Limpiar</a>
+            </div>
+          </form>
+        </section>
+
+        <% if (payments.length > 0) { %>
+            <table class="payments-table">
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Servicio</th>
+                        <th>Email</th>
+                        <th>Nombre en tarjeta</th>
+                        <th>Expiración</th>
+                        <th>Monto</th>
+                        <th>Moneda</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payments.forEach(payment => { %>
+                        <tr>
+                            <td><%= payment.id %></td>
+                            <td><%= payment.service %></td>
+                            <td><%= payment.email %></td>
+                            <td><%= payment.cardName %></td>
+                            <td><%= payment.expMonth %>/<%= payment.expYear %></td>
+                            <td><%= payment.amount %></td>
+                            <td><%= payment.currency %></td>
+                            <td><%= new Date(payment.created_at).toLocaleDateString() %></td>
+                            <td>
+                                <a href="/admin/payments/view/<%= payment.id %>" class="action-button view">🔍 Ver</a>
+                                <a href="/admin/payments/delete/<%= payment.id %>" class="action-button delete">🗑 Eliminar</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No hay pagos registrados aún.</p>
+        <% } %>
+
+        <!-- Estadísticas -->
+        <section class="statistics">
+            <h2>Resumen de Pagos</h2>
+            <p>💳 Total de pagos procesados: <strong><%= payments.length || 0 %></strong></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 LoveDoc - Todos los derechos reservados.</p>
+    </footer>
+    <script src="/scripts/scripts.js"></script>
+</body>
+</html>

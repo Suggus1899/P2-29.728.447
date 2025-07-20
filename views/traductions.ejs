@@ -1,85 +1,140 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traducciones</title>
-    <link rel="stylesheet" href="/stylesheets/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traducciones</title>
+  <link rel="stylesheet" href="/stylesheets/traductions.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 <body>
-    <header>
-        <h1>Traducción de documentos</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/about">Sobre nosotros</a></li>
-                <li><a href="/services">Servicios</a></li>
-                <li><a href="/traductions">Traducciones</a></li>
-                <li><a href="/contact">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <h1>Traducción de documentos</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/about">Sobre nosotros</a></li>
+        <li><a href="/services">Servicios</a></li>
+        <li><a href="/traductions">Traducciones</a></li>
+        <li><a href="/contact">Contacto</a></li>
+        <li><a href="/payment" class="payment-button">💳 Pago</a></li>
+        <li><a href="/login">Iniciar sesión</a></li>
+        <li><a href="/register">Registrarse</a></li>
+      </ul>
+      <div class="hamburger-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </nav>
+  </header>
 
-    <main>
-        <section class="traductions-intro">
-            <h2>Convierte tu documento en cualquier idioma</h2>
-            <p>Sube tu archivo, selecciona el idioma de destino y obtén una traducción rápida y precisa.</p>
-        </section>
+  <main>
+    <section class="traductions-intro">
+      <h2>Convierte tu documento en cualquier idioma</h2>
+      <p>Sube tu archivo, selecciona el idioma de destino y obtén una traducción rápida y precisa.</p>
+    </section>
 
-        <section class="upload-section">
-            <h2>Sube tu documento</h2>
-            <form action="/translate" method="POST" enctype="multipart/form-data">
-                <label for="document">Selecciona el archivo:</label>
-                <input type="file" id="document" name="document" accept=".pdf,.docx,.txt" required>
+    <section class="translation-types">
+      <h2>Tipos de Traducción</h2>
+      <div class="types-container">
+        <div class="type">
+          <h3>📜 Traducción estándar</h3>
+          <p>Rápida y automática, ideal para textos simples.</p>
+        </div>
+        <div class="type">
+          <h3>⚖ Traducción legal</h3>
+          <p>Especializada en contratos, certificados y documentos jurídicos.</p>
+        </div>
+        <div class="type">
+          <h3>📘 Traducción académica</h3>
+          <p>Artículos científicos, investigaciones y tesis con revisión experta.</p>
+        </div>
+        <div class="type">
+          <h3>🏢 Traducción corporativa</h3>
+          <p>Manuales, informes y documentos empresariales con formato profesional.</p>
+        </div>
+        <div class="type">
+          <h3>🔍 Revisión y corrección</h3>
+          <p>Corrección gramatical y adaptación precisa al idioma destino.</p>
+        </div>
+        <div class="type">
+          <h3>🛡 Traducción certificada</h3>
+          <p>Documentos con validez legal y certificación oficial.</p>
+        </div>
+        <div class="type">
+          <h3>💡 Localización de contenido</h3>
+          <p>Adaptación de sitios web y software para distintos mercados.</p>
+        </div>
+        <div class="type">
+          <h3>🚀 Traducción en tiempo real</h3>
+          <p>Traducción instantánea para reuniones, chats y conferencias online.</p>
+        </div>
+      </div>
+    </section>
 
-                <label for="language">Selecciona el idioma de destino:</label>
-                <input type="text" id="languageInput" name="language" list="languages" placeholder="Escribe un idioma..." required>
-                <datalist id="languages">
-                    <option value="Español">
-                    <option value="Inglés">
-                    <option value="Francés">
-                    <option value="Alemán">
-                    <option value="Italiano">
-                    <option value="Chino">
-                    <option value="Portugués">
-                    <option value="Japonés">
-                    <option value="Coreano">
-                    <option value="Ruso">
-                </datalist>
+    <section class="upload-section">
+      <h2>Sube tu documento</h2>
+      <form action="/translate" method="POST" enctype="multipart/form-data">
+        <label for="document">Selecciona el archivo:</label>
+        <input type="file" id="document" name="document" accept=".pdf,.docx,.txt" required>
 
-                <button type="submit">Traducir ahora</button>
-            </form>
-        </section>
+        <label for="language">Selecciona el idioma de destino:</label>
+        <input type="text" id="languageInput" name="language" list="languages" placeholder="Escribe un idioma..." required>
+        <datalist id="languages">
+          <option value="Español">
+          <option value="Inglés">
+          <option value="Francés">
+          <option value="Alemán">
+          <option value="Italiano">
+          <option value="Chino">
+          <option value="Portugués">
+          <option value="Japonés">
+          <option value="Coreano">
+          <option value="Ruso">
+        </datalist>
 
-        <section class="translation-benefits">
-            <h2>¿Por qué usar LoveDoc?</h2>
-            <ul>
-                <li>✅ Traducción precisa con IA avanzada</li>
-                <li>🚀 Rápido y seguro</li>
-                <li>🌎 Compatible con múltiples idiomas</li>
-                <li>📂 Soporte para formatos PDF, DOCX y TXT</li>
-            </ul>
-        </section>
+        <button type="submit">Traducir ahora</button>
+      </form>
+    </section>
 
-        <section class="recent-translations">
-            <h2>Traducciones recientes</h2>
-            <div class="translation-example">
-                <p><strong>Documento:</strong> Manual técnico</p>
-                <p><strong>Idioma origen:</strong> Inglés</p>
-                <p><strong>Idioma destino:</strong> Español</p>
-                <a href="/download/example1">Descargar traducción</a>
-            </div>
-            <div class="translation-example">
-                <p><strong>Documento:</strong> Informe de negocios</p>
-                <p><strong>Idioma origen:</strong> Francés</p>
-                <p><strong>Idioma destino:</strong> Inglés</p>
-                <a href="/download/example2">Descargar traducción</a>
-            </div>
-        </section>
-    </main>
+    <section class="translation-benefits">
+      <h2>¿Por qué usar LoveDoc?</h2>
+      <ul>
+        <li>✅ Traducción precisa con IA avanzada</li>
+        <li>🚀 Rápido y seguro</li>
+        <li>🌎 Compatible con múltiples idiomas</li>
+        <li>📂 Soporte para formatos PDF, DOCX y TXT</li>
+      </ul>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
-    </footer>
+    <section class="recent-translations">
+      <h2>Traducciones recientes</h2>
+      <div class="translation-example">
+        <p><strong>Documento:</strong> Manual técnico</p>
+        <p><strong>Idioma origen:</strong> Inglés</p>
+        <p><strong>Idioma destino:</strong> Español</p>
+        <a href="/download/example1">Descargar traducción</a>
+      </div>
+      <div class="translation-example">
+        <p><strong>Documento:</strong> Informe de negocios</p>
+        <p><strong>Idioma origen:</strong> Francés</p>
+        <p><strong>Idioma destino:</strong> Inglés</p>
+        <a href="/download/example2">Descargar traducción</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 LoveDoc - Todos los derechos reservados</p>
+  </footer>
+  <script src="/scripts/scripts.js"></script>
 </body>
 </html>

@@ -3,39 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - LoveDoc</title>
-    <link rel="stylesheet" href="/public/styles.css"> <!-- Estilos CSS -->
+    <title>Administración de Contactos - LoveDoc</title>
+    <link rel="stylesheet" href="/stylesheets/admin_contact.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
+
 <body>
     <header>
-        <h1>Contacto</h1>
-        <p>Déjanos tu mensaje y nos pondremos en contacto contigo.</p>
+        <h1>Panel de Administración - Contactos</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/admin/contacts">📂 Contactos</a></li>
+                <li><a href="/admin/payments">💳 Pagos</a></li>
+            </ul>
+            <div class="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
     </header>
 
     <main>
-        <% if (message) { %>
-            <p class="success"><%= message %></p> <!--  Mensaje de éxito -->
+        <h2>Lista de Contactos</h2>
+
+        <% if (typeof message !== "undefined" && message) { %>
+            <p class="success"><%= message %></p> 
         <% } %>
 
-        <form action="/contact/add" method="POST">
-            <label for="email">Correo electrónico:</label>
-            <input type="email" name="email" id="email" required placeholder="Tu correo">
+        <% if (errors && errors.length > 0) { %>
+            <ul class="error-list">
+                <% errors.forEach(error => { %>
+                    <li class="error-text">⚠ <%= error %></li>
+                <% }); %>
+            </ul>
+        <% } %>
 
-            <label for="name">Nombre:</label>
-            <input type="text" name="name" id="name" required placeholder="Tu nombre">
+        <!-- Filtros y búsqueda -->
+        <section class="filters">
+            <input type="text" id="search" placeholder="Buscar por nombre o email...">
+            <button class="filter-button">Filtrar</button>
+        </section>
 
-            <label for="lastname">Apellido:</label>
-            <input type="text" name="lastname" id="lastname" required placeholder="Tu apellido">
+        <table class="contacts-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Comentario</th>
+                    <th>IP</th>
+                    <th>País</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (contacts && contacts.length > 0) { %>
+                    <% contacts.forEach(contact => { %>
+                        <tr>
+                            <td><%= contact.id %></td>
+                            <td><%= contact.nombre %></td>
+                            <td><%= contact.email %></td>
+                            <td><%= contact.comment %></td>
+                            <td><%= contact.ip %></td>
+                            <td><%= contact.pais %></td>
+                            <td><%= contact.date %></td>
+                            <td>
+                                <a href="/admin/contacts/view/<%= contact.id %>" class="action-button view">🔍 Ver</a>
+                                <a href="/admin/contacts/delete/<%= contact.id %>" class="action-button delete">🗑 Eliminar</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="8">No hay contactos registrados.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
 
-            <label for="comment">Mensaje:</label>
-            <textarea name="comment" id="comment" required placeholder="Escribe tu mensaje"></textarea>
-
-            <button type="submit">Enviar</button>
-        </form>
+        <!-- Estadísticas -->
+        <section class="statistics">
+            <h2>Estadísticas de Contactos</h2>
+            <p>📧 Total de contactos registrados: <strong><%= contacts.length || 0 %></strong></p>
+            <% if (typeof recentContacts !== "undefined") { %>
+                <p>🔍 Contactos en el último mes: <strong><%= recentContacts || 0 %></strong></p>
+            <% } else { %>
+                <p>🔍 Contactos en el último mes: <strong>0</strong></p>
+            <% } %>
+        </section>
     </main>
 
     <footer>
-        <p>LoveDoc © 2025 - Todos los derechos reservados.</p>
+        <p>&copy; 2025 LoveDoc. Todos los derechos reservados.</p>
     </footer>
+    <script src="/scripts/scripts.js"></script>
 </body>
 </html>

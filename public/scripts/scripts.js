@@ -1,22 +1,70 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
+    const hamburger = document.querySelector(".hamburger-menu");
+    const navLinks = document.querySelector(".nav-links");
 
-    form.addEventListener("submit", (event) => {
-        const email = document.getElementById("email").value.trim();
-        const name = document.getElementById("name").value.trim();
-        const lastname = document.getElementById("lastname").value.trim();
-        const comment = document.getElementById("comment").value.trim();
+    if (hamburger && navLinks) {
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
 
-        let errors = [];
+            if (navLinks.classList.contains("active")) {
+                navLinks.style.transform = "translateX(0)";
+                navLinks.style.opacity = "1";
+            } else {
+                navLinks.style.transform = "translateX(-100%)";
+                navLinks.style.opacity = "0";
+            }
+        });
 
-        if (!email.includes("@")) errors.push("El correo no es válido.");
-        if (name.length < 2) errors.push("El nombre debe tener al menos 2 caracteres.");
-        if (lastname.length < 2) errors.push("El apellido debe tener al menos 2 caracteres.");
-        if (comment.length < 20) errors.push("El mensaje debe tener al menos 10 caracteres.");
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.addEventListener("click", () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove("active");
+                    navLinks.style.transform = "translateX(-100%)";
+                    navLinks.style.opacity = "0";
+                }
+            });
+        });
+    } else {
+        console.error("❌ No se encontró el menú hamburguesa o los enlaces de navegación.");
+    }
 
-        if (errors.length > 0) {
-            event.preventDefault();
-            alert(errors.join("\n")); // Muestra errores en un `alert()`
-        }
-    });
+    // Filtro dinámico para la tabla de pagos en admin/payments
+    if (document.querySelector('.payments-table')) {
+      const form = document.getElementById('filtros-form');
+      const table = document.querySelector('.payments-table');
+      if (form && table) {
+        form.addEventListener('input', function () {
+          const servicio = form.servicio.value.toLowerCase();
+          const email = form.email.value.toLowerCase();
+          const estado = form.estado.value;
+          const fechaInicio = form.fecha_inicio.value;
+          const fechaFin = form.fecha_fin.value;
+          const rows = table.querySelectorAll('tbody tr');
+          rows.forEach(row => {
+            const tds = row.querySelectorAll('td');
+            if (tds.length === 0) return; // skip empty rows
+            const servicioTd = tds[1].textContent.toLowerCase();
+            const emailTd = tds[2].textContent.toLowerCase();
+            const fechaTd = tds[7].textContent;
+            let visible = true;
+            if (servicio && !servicioTd.includes(servicio)) visible = false;
+            if (email && !emailTd.includes(email)) visible = false;
+            // Estado: solo "completado" existe, si se selecciona fallido ocultar todo
+            if (estado === 'fallido') visible = false;
+            // Fechas
+            if (fechaInicio) {
+              const fechaRow = new Date(fechaTd.split('/').reverse().join('-'));
+              const inicio = new Date(fechaInicio);
+              if (fechaRow < inicio) visible = false;
+            }
+            if (fechaFin) {
+              const fechaRow = new Date(fechaTd.split('/').reverse().join('-'));
+              const fin = new Date(fechaFin);
+              if (fechaRow > fin) visible = false;
+            }
+            row.style.display = visible ? '' : 'none';
+          });
+        });
+      }
+    }
 });

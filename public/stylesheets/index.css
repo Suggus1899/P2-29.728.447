@@ -1,0 +1,166 @@
+/* Variables de color */
+:root {
+    --color1: #cc2649;
+    --color2: #992c4b;
+    --color3: #66324c;
+    --color4: #33384e;
+    --color5: #003e4f;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color4);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    background: var(--color1);
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color2);
+    padding: 10px 20px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+/* Menú hamburguesa */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger-menu .bar {
+    background: white;
+    height: 4px;
+    width: 30px;
+    margin: 5px;
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 50px;
+    background: var(--color3);
+}
+
+.hero h2 {
+    font-size: 2rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+.hero .button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: var(--color1);
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+/* Secciones generales */
+section {
+    padding: 50px 20px;
+}
+
+/* Pricing */
+.plans {
+    display: flex;
+    justify-content: space-around;
+}
+
+.plan {
+    background: var(--color5);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Stats */
+.stats-box {
+    display: flex;
+    justify-content: space-around;
+    background: var(--color3);
+    padding: 30px;
+}
+
+/* FAQ */
+.faq-item {
+    background: var(--color2);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Contacto */
+.contact form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+}
+
+.contact label {
+    font-weight: bold;
+}
+
+.contact input,
+.contact textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--color1);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: var(--color2);
+        padding: 10px;
+        position: absolute;
+        top: 60px;
+        width: 100%;
+    }
+
+    .nav-links li {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+}
