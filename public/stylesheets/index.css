@@ -1,17 +1,11 @@
-/* Variables de color */
-:root {
-    --color1: #cc2649;
-    --color2: #992c4b;
-    --color3: #66324c;
-    --color4: #33384e;
-    --color5: #003e4f;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import './_variables.css';
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--color4);
-    color: white;
+    font-family: var(--font-main);
+    background: var(--color-bg);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
 }
@@ -19,8 +13,10 @@ body {
 /* Header */
 header {
     text-align: center;
-    padding: 20px;
-    background: var(--color1);
+    padding: var(--space-md) 0 var(--space-sm) 0;
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: var(--shadow);
 }
 
 /* Navbar */
@@ -28,20 +24,32 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--color2);
-    padding: 10px 20px;
+    background: var(--color-primary-dark);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius);
+    margin: var(--space-sm) auto;
+    max-width: 1100px;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 15px;
+    gap: var(--space-sm);
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links li a {
-    color: white;
+    color: #fff;
     text-decoration: none;
-    padding: 10px;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius);
+    transition: background 0.2s;
+}
+
+.nav-links li a:hover {
+    background: var(--color-secondary);
+    color: #fff;
 }
 
 /* Menú hamburguesa */

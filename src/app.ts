@@ -16,6 +16,7 @@ declare module "express-session" {
 import authRoutes from "./routes/auth";
 import contactRoutes from "./routes/contact";
 import paymentRoutes from "./routes/payments";
+import generalRoutes from "./routes/routes";
 
 import { createUserTable } from "./models/UserModel";
 import { seedAdmin } from "./utils/seedAdmin";
@@ -109,8 +110,9 @@ createUserTable().then(seedAdmin);
 
 // 🌐 Rutas
 app.use(authRoutes);
-app.use(contactRoutes);
-app.use(paymentRoutes);
+app.use("/contact", contactRoutes);
+app.use("/payment", paymentRoutes);
+app.use(generalRoutes);
 
 // ⚠️ Página no encontrada
 app.use((req, res) => {

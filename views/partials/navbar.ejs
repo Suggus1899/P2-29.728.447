@@ -1,0 +1,30 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="navbar-logo">LoveDoc</a>
+    <ul class="nav-links">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/about">Sobre nosotros</a></li>
+      <li><a href="/services">Servicios</a></li>
+      <li><a href="/traductions">Traducciones</a></li>
+      <li><a href="/contact">Contacto</a></li>
+      <li><a href="/payment">Pago</a></li>
+      <li><a href="/login">Iniciar sesión</a></li>
+      <li><a href="/register">Registrarse</a></li>
+    </ul>
+    <div class="hamburger-menu" id="hamburger-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </div>
+</nav>
+<script>
+  // Menú responsive
+  document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger-menu');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+    });
+  });
+</script>

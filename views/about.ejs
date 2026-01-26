@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/about.css" />
+    <link rel="stylesheet" href="/stylesheets/components.css" />
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -15,54 +16,32 @@
     </script>
 </head>
 <body>
-    <header>
-        <h1>Sobre LoveDoc</h1>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/about">Sobre nosotros</a></li>
-                <li><a href="/services">Servicios</a></li>
-                <li><a href="/traductions">Traducciones</a></li>
-                <li><a href="/contact">Contacto</a></li>
-                <li><a href="/payment" class="payment-button">Pago</a></li>
-                <li><a href="/login">Iniciar sesión</a></li>
-                <li><a href="/register">Registrarse</a></li>
-            </ul>
-            <div class="hamburger-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+    <%- include('partials/navbar.ejs') %>
 
     <main>
-        <section class="about-intro">
-            <h2>Nuestra historia</h2>
-            <p>LoveDoc nació con la misión de hacer accesible la traducción de documentos a nivel global. Desde nuestros inicios, hemos trabajado para ofrecer una plataforma rápida, segura y eficiente.</p>
+        <section class="about-intro card" style="margin-top:var(--space-lg);">
+            <h2 style="color:var(--color-primary-dark);">¿Quiénes somos?</h2>
+            <p style="color:var(--color-text-light); font-size:1.1rem;">LoveDoc es una plataforma dedicada a la traducción profesional y segura de documentos en más de 50 idiomas. Nuestro equipo combina tecnología avanzada y talento humano para ofrecer resultados de alta calidad.</p>
         </section>
-
-        <section class="about-mission">
-            <h2>Nuestra misión</h2>
-            <p>Facilitar la comunicación entre culturas y romper las barreras del idioma mediante tecnología de traducción avanzada.</p>
-        </section>
-
-        <section class="about-vision">
-            <h2>Nuestra visión</h2>
-            <p>Queremos convertirnos en la plataforma líder de traducción de documentos, ofreciendo soluciones innovadoras con calidad profesional.</p>
-        </section>
-
-        <section class="about-values">
-            <h2>Valores fundamentales</h2>
-            <ul>
-                <li>✅ <strong>Precisión:</strong> Garantizamos traducciones de alta calidad.</li>
-                <li>🔒 <strong>Seguridad:</strong> Protegemos la privacidad de nuestros usuarios.</li>
-                <li>🌎 <strong>Accesibilidad:</strong> Hacemos posible la traducción en más de 50 idiomas.</li>
-                <li>🚀 <strong>Innovación:</strong> Mejoramos constantemente con IA y revisión humana.</li>
+        <section class="about-values card">
+            <h2 style="color:var(--color-primary-dark);">Nuestros valores</h2>
+            <ul style="padding-left:1.2em;">
+                <li>✔️ Confidencialidad y seguridad de tus datos</li>
+                <li>✔️ Rapidez y precisión en cada traducción</li>
+                <li>✔️ Atención personalizada y soporte 24/7</li>
             </ul>
         </section>
+        <section class="about-mission card">
+            <h2 style="color:var(--color-primary-dark);">Nuestra misión</h2>
+            <p style="color:var(--color-text-light);">Facilitar la comunicación entre culturas y romper las barreras del idioma mediante tecnología de traducción avanzada.</p>
+        </section>
 
-        <section class="testimonials">
+        <section class="about-vision card">
+            <h2 style="color:var(--color-primary-dark);">Nuestra visión</h2>
+            <p style="color:var(--color-text-light);">Queremos convertirnos en la plataforma líder de traducción de documentos, ofreciendo soluciones innovadoras con calidad profesional.</p>
+        </section>
+
+        <section class="testimonials card">
             <h2>Lo que dicen nuestros clientes</h2>
             <div class="testimonial">
                 <p>"LoveDoc me ayudó a traducir documentos legales con precisión. ¡Servicio excelente!"</p>
@@ -74,7 +53,7 @@
             </div>
         </section>
 
-        <section class="about-collaborations">
+        <section class="about-collaborations card">
             <h2>Colaboraciones y alianzas</h2>
             <p>LoveDoc trabaja con diversas instituciones y empresas para garantizar traducciones certificadas en múltiples sectores.</p>
             <div class="partners">
@@ -84,26 +63,9 @@
             </div>
         </section>
 
-        <section class="about-team">
-            <h2>Conoce nuestro equipo</h2>
-            <p>Detrás de LoveDoc hay un grupo de expertos en lingüística, inteligencia artificial y tecnología, trabajando para brindarte la mejor experiencia.</p>
-            <div class="team-members">
-                <div class="member">
-                    <img src="/images/team1.jpg" alt="Fundador" />
-                    <h3>Juan Pérez</h3>
-                    <p>Fundador y CEO</p>
-                </div>
-                <div class="member">
-                    <img src="/images/team2.jpg" alt="Desarrollador" />
-                    <h3>María Rodríguez</h3>
-                    <p>Desarrolladora Principal</p>
-                </div>
-                <div class="member">
-                    <img src="/images/team3.jpg" alt="Especialista en IA" />
-                    <h3>Carlos García</h3>
-                    <p>Especialista en Inteligencia Artificial</p>
-                </div>
-            </div>
+        <section class="about-team card">
+            <h2 style="color:var(--color-primary-dark);">Nuestro equipo</h2>
+            <p style="color:var(--color-text-light);">Contamos con traductores certificados, revisores expertos y desarrolladores apasionados por la innovación lingüística.</p>
         </section>
     </main>
 

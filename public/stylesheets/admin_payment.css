@@ -1,18 +1,11 @@
-/* Variables de color */
-:root {
-    --color1: #cc2649;
-    --color2: #992c4b;
-    --color3: #66324c;
-    --color4: #33384e;
-    --color5: #003e4f;
-    --hover-color: #b2203f;
-}
+@import './_variables.css';
+@import './components.css';
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--color4);
-    color: white;
+    font-family: var(--font-main);
+    background: var(--color-bg);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
 }
@@ -55,25 +48,39 @@ main {
 .payments-table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--color3);
-    margin-top: 20px;
-    border-radius: 10px;
-    overflow: hidden;
+    margin-bottom: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: var(--space-md);
+    margin: var(--space-lg) auto;
+    max-width: 1100px;
 }
 
-.payments-table th,
-.payments-table td {
-    padding: 12px;
-    border: 1px solid white;
-    text-align: center;
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-md);
 }
 
-.payments-table th {
-    background: var(--color1);
+.table th,
+.table td {
+    padding: var(--space-xs);
+    border-bottom: 1px solid #eee;
+    text-align: left;
 }
 
-.payments-table tr:nth-child(even) {
-    background: var(--color5);
+.table th {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table-actions .btn {
+    margin-right: var(--space-xs);
 }
 
 /* Botones de acción */

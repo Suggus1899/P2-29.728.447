@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -17,6 +17,7 @@
   <meta name="twitter:description" content="Convierte y traduce tus documentos de forma rápida, segura y profesional con LoveDoc. Más de 50 idiomas disponibles. ¡Pruébalo gratis!" />
   <meta name="twitter:image" content="/public/logo-og.png" />
   <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/components.css" />
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -27,69 +28,50 @@
   </script>
 </head>
 <body>
-  <header>
-    <h1>Bienvenido a LoveDoc</h1>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/about">Sobre nosotros</a></li>
-        <li><a href="/services">Servicios</a></li>
-        <li><a href="/traductions">Traducciones</a></li>
-        <li><a href="/contact">Contacto</a></li>
-        <li><a href="/payment" class="payment-button">Pago</a></li>
-        <li><a href="/login">Iniciar sesión</a></li>
-        <li><a href="/register">Registrarse</a></li>
-      </ul>
-      <div class="hamburger-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-    </nav>
-  </header>
+    <%- include('partials/navbar.ejs') %>
 
   <main>
     <!-- Sección HERO -->
-    <section class="hero">
-      <h2>Traducción de documentos rápida y eficiente</h2>
-      <p>Convierte cualquier documento en el idioma que necesites, con precisión y calidad.</p>
-      <a href="/traductions" class="button">Comenzar</a>
+    <section class="hero card" style="text-align:center; margin-top:var(--space-lg);">
+      <h2 style="font-size:2.2rem; font-weight:600; color:var(--color-primary-dark);">Traducción de documentos rápida y eficiente</h2>
+      <p style="font-size:1.15rem; color:var(--color-text-light); max-width:600px; margin:var(--space-sm) auto;">Convierte cualquier documento en el idioma que necesites, con precisión y calidad.</p>
+      <a href="/traductions" class="btn" style="font-size:1.1rem;">Comenzar</a>
     </section>
 
     <!-- ¿Cómo funciona LoveDoc? -->
-    <section class="how-it-works">
-      <h2>¿Cómo funciona LoveDoc?</h2>
-      <div class="steps">
-        <div class="step">
-          <h3>📂 1. Carga tu documento</h3>
+    <section class="how-it-works" style="margin:var(--space-lg) 0;">
+      <h2 style="text-align:center; color:var(--color-primary-dark);">¿Cómo funciona LoveDoc?</h2>
+      <div class="steps" style="display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-md); margin-top:var(--space-md);">
+        <div class="step card" style="flex:1 1 220px; min-width:220px; max-width:320px;">
+          <h3 style="font-size:1.1rem;">📂 1. Carga tu documento</h3>
           <p>Sube el archivo que deseas traducir en el formato admitido.</p>
         </div>
-        <div class="step">
-          <h3>🌍 2. Selecciona el idioma</h3>
+        <div class="step card" style="flex:1 1 220px; min-width:220px; max-width:320px;">
+          <h3 style="font-size:1.1rem;">🌍 2. Selecciona el idioma</h3>
           <p>Elige el idioma de destino y personaliza las opciones.</p>
         </div>
-        <div class="step">
-          <h3>🚀 3. Obtén tu traducción</h3>
+        <div class="step card" style="flex:1 1 220px; min-width:220px; max-width:320px;">
+          <h3 style="font-size:1.1rem;">🚀 3. Obtén tu traducción</h3>
           <p>Descarga el documento traducido con calidad profesional.</p>
         </div>
       </div>
     </section>
 
     <!-- Planes y precios -->
-    <section class="pricing">
-      <h2>Planes y Precios</h2>
-      <div class="plans">
-        <div class="plan">
+    <section class="pricing" style="margin:var(--space-lg) 0;">
+      <h2 style="text-align:center; color:var(--color-primary-dark);">Planes y Precios</h2>
+      <div class="plans" style="display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-md); margin-top:var(--space-md);">
+        <div class="plan card" style="flex:1 1 220px; min-width:220px; max-width:320px;">
           <h3>🔹 Básico</h3>
           <p>Traducción estándar, ideal para textos simples.</p>
           <p><strong>Gratis</strong></p>
         </div>
-        <div class="plan">
+        <div class="plan card" style="flex:1 1 220px; min-width:220px; max-width:320px;">
           <h3>⚡ Avanzado</h3>
           <p>Traducción técnica y especializada.</p>
           <p><strong>$9.99 por documento</strong></p>
         </div>
-        <div class="plan">
+        <div class="plan card" style="flex:1 1 220px; min-width:220px; max-width:320px;">
           <h3>🏆 Premium</h3>
           <p>Traducción con revisión humana y certificación.</p>
           <p><strong>$29.99 por documento</strong></p>

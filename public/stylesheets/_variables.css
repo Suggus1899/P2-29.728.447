@@ -1,0 +1,26 @@
+:root {
+  /* Paleta principal */
+  --color-primary: #6c63ff;
+  --color-primary-dark: #4b47b5;
+  --color-secondary: #ff6584;
+  --color-bg: #f7f7fb;
+  --color-surface: #fff;
+  --color-text: #222;
+  --color-text-light: #666;
+  --color-success: #4caf50;
+  --color-error: #e53935;
+
+  /* Tipografía */
+  --font-main: 'Inter', 'Segoe UI', Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-size-lg: 1.25rem;
+  --font-size-sm: 0.95rem;
+
+  /* Espaciados */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 3rem;
+  --radius: 0.75rem;
+  --shadow: 0 2px 8px rgba(44, 44, 84, 0.08);
+}

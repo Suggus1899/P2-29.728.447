@@ -15,51 +15,10 @@ const pages: { path: string; title: string }[] = ["index", "about", "services", 
 
 pages.forEach(({ path, title }) => {
   router.get(path, (req: Request, res: Response) => {
-    res.render(path.replace("/", ""), { title });
+    res.render(path.replace("/", ""), { title, url: process.env.BASE_URL || "https://lovedoc.com" });
   });
 });
 
-// Contacto
-router.get("/contact", ContactsController.contactPage);
-router.post("/contact/add", validateContactMiddleware, ContactsController.add);
-router.get("/admin/contacts", ContactsController.index);
-
-// Pagos
-router.get("/payment", (req: Request, res: Response) => {
-  res.render("payment", {
-    title: "Pago",
-    message: "",
-    success: false,
-    errors: [],
-    data: {
-      cardName: "",
-      email: "",
-      cardNumber: "",
-      expMonth: "",
-      expYear: "",
-      amount: ""
-    }
-  });
-});
-
-router.post("/payment/process", validatePaymentMiddleware, PaymentController.process);
-
-// Administración de pagos
-router.get("/admin/payments", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const payments = await PaymentModel.getAllPayments();
-    res.render("admin/payments", {
-      payments,
-      message: payments.length > 0 ? "" : "No hay pagos registrados aún.",
-    });
-  } catch (err) {
-    console.error("Error al obtener pagos:", err);
-    res.status(500).render("admin/payments", {
-      payments: [],
-      message: "Error al cargar la lista de pagos.",
-    });
-  }
-});
 
 // Errores 404
 router.use((req: Request, res: Response) => {

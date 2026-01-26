@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración de Contactos - LoveDoc</title>
     <link rel="stylesheet" href="/stylesheets/admin_contact.css">
+    <link rel="stylesheet" href="/stylesheets/components.css">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -16,91 +17,43 @@
 </head>
 
 <body>
-    <header>
-        <h1>Panel de Administración - Contactos</h1>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/admin/contacts">📂 Contactos</a></li>
-                <li><a href="/admin/payments">💳 Pagos</a></li>
-            </ul>
-            <div class="hamburger-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+    <%- include('../partials/navbar.ejs') %>
 
     <main>
-        <h2>Lista de Contactos</h2>
+        <div class="card-table">
+            <h2 style="color:var(--color-primary-dark);">Lista de Contactos</h2>
 
-        <% if (typeof message !== "undefined" && message) { %>
-            <p class="success"><%= message %></p> 
-        <% } %>
-
-        <% if (errors && errors.length > 0) { %>
-            <ul class="error-list">
-                <% errors.forEach(error => { %>
-                    <li class="error-text">⚠ <%= error %></li>
-                <% }); %>
-            </ul>
-        <% } %>
-
-        <!-- Filtros y búsqueda -->
-        <section class="filters">
-            <input type="text" id="search" placeholder="Buscar por nombre o email...">
-            <button class="filter-button">Filtrar</button>
-        </section>
-
-        <table class="contacts-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Comentario</th>
-                    <th>IP</th>
-                    <th>País</th>
-                    <th>Fecha</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (contacts && contacts.length > 0) { %>
-                    <% contacts.forEach(contact => { %>
-                        <tr>
-                            <td><%= contact.id %></td>
-                            <td><%= contact.nombre %></td>
-                            <td><%= contact.email %></td>
-                            <td><%= contact.comment %></td>
-                            <td><%= contact.ip %></td>
-                            <td><%= contact.pais %></td>
-                            <td><%= contact.date %></td>
-                            <td>
-                                <a href="/admin/contacts/view/<%= contact.id %>" class="action-button view">🔍 Ver</a>
-                                <a href="/admin/contacts/delete/<%= contact.id %>" class="action-button delete">🗑 Eliminar</a>
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
-                    <tr>
-                        <td colspan="8">No hay contactos registrados.</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-
-        <!-- Estadísticas -->
-        <section class="statistics">
-            <h2>Estadísticas de Contactos</h2>
-            <p>📧 Total de contactos registrados: <strong><%= contacts.length || 0 %></strong></p>
-            <% if (typeof recentContacts !== "undefined") { %>
-                <p>🔍 Contactos en el último mes: <strong><%= recentContacts || 0 %></strong></p>
-            <% } else { %>
-                <p>🔍 Contactos en el último mes: <strong>0</strong></p>
+            <% if (typeof message !== "undefined" && message) { %>
+                <div class="alert alert-success"><%= message %></div>
             <% } %>
-        </section>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Tipo</th>
+                        <th>Comentario</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (contacts && contacts.length > 0) { %>
+                        <% contacts.forEach(contact => { %>
+                            <tr>
+                                <td><%= contact.nombre %></td>
+                                <td><%= contact.email %></td>
+                                <td><%= contact.tipo_mensaje %></td>
+                                <td><%= contact.comment %></td>
+                                <td><%= contact.created_at %></td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr><td colspan="5">No hay contactos registrados.</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <footer>

@@ -1,6 +1,10 @@
+@import './_variables.css';
+@import './components.css';
+
 body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #e3f2fd;
+  font-family: var(--font-main);
+  background: var(--color-bg);
+  color: var(--color-text);
   margin: 0;
   padding: 0;
 }
@@ -24,12 +28,12 @@ nav {
 }
 
 .form-container {
-  max-width: 400px;
-  margin: 60px auto;
-  background-color: white;
-  padding: 30px;
-  border-radius: 6px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  margin: var(--space-lg) auto;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-lg) var(--space-md);
 }
 
 .form-container h1 {
@@ -38,10 +42,20 @@ nav {
   text-align: center;
 }
 
-label {
+form label {
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-xs);
   display: block;
-  margin-top: 15px;
-  color: #333;
+}
+
+form .btn {
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+form .alert {
+  margin-bottom: var(--space-xs);
 }
 
 input[type="text"],

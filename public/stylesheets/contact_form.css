@@ -1,18 +1,11 @@
-/* Variables de color */
-:root {
-    --color1: #cc2649;
-    --color2: #992c4b;
-    --color3: #66324c;
-    --color4: #33384e;
-    --color5: #003e4f;
-    --hover-color: #b2203f;
-}
+@import './_variables.css';
+@import './components.css';
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--color4);
-    color: white;
+    font-family: var(--font-main);
+    background: var(--color-bg);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
 }
@@ -79,6 +72,15 @@ form {
     border-radius: 10px;
 }
 
+.form-container {
+    max-width: 420px;
+    margin: var(--space-lg) auto;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: var(--space-lg) var(--space-md);
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
@@ -86,7 +88,10 @@ form {
 }
 
 .form-group label {
-    font-weight: bold;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-xs);
+    display: block;
 }
 
 .form-group input,

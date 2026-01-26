@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Traducciones</title>
+  <link rel="stylesheet" href="/stylesheets/components.css">
   <link rel="stylesheet" href="/stylesheets/traductions.css">
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -15,34 +16,30 @@
   </script>
 </head>
 <body>
-  <header>
-    <h1>Traducción de documentos</h1>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/about">Sobre nosotros</a></li>
-        <li><a href="/services">Servicios</a></li>
-        <li><a href="/traductions">Traducciones</a></li>
-        <li><a href="/contact">Contacto</a></li>
-        <li><a href="/payment" class="payment-button">💳 Pago</a></li>
-        <li><a href="/login">Iniciar sesión</a></li>
-        <li><a href="/register">Registrarse</a></li>
-      </ul>
-      <div class="hamburger-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-    </nav>
-  </header>
+    <%- include('partials/navbar.ejs') %>
 
   <main>
-    <section class="traductions-intro">
-      <h2>Convierte tu documento en cualquier idioma</h2>
-      <p>Sube tu archivo, selecciona el idioma de destino y obtén una traducción rápida y precisa.</p>
+    <section class="traductions-intro card" style="margin-top:var(--space-lg);">
+      <h2 style="color:var(--color-primary-dark);">Traduce tus documentos en minutos</h2>
+      <p style="color:var(--color-text-light); font-size:1.1rem;">Carga tu archivo, elige el idioma y recibe tu traducción profesional de forma rápida y segura.</p>
     </section>
-
-    <section class="translation-types">
+    <section class="traductions-steps card">
+      <h2 style="color:var(--color-primary-dark);">¿Cómo funciona?</h2>
+      <ol style="padding-left:1.2em;">
+        <li>Sube tu documento (PDF, Word, Excel, etc.)</li>
+        <li>Selecciona el idioma de origen y destino</li>
+        <li>Confirma el pago y recibe tu traducción</li>
+      </ol>
+    </section>
+    <section class="traductions-benefits card">
+      <h2 style="color:var(--color-primary-dark);">Ventajas de LoveDoc</h2>
+      <ul style="padding-left:1.2em;">
+        <li>✔️ Traducción automática y humana</li>
+        <li>✔️ Seguridad y confidencialidad</li>
+        <li>✔️ Soporte en todo momento</li>
+      </ul>
+    </section>
+    <section class="translation-types card">
       <h2>Tipos de Traducción</h2>
       <div class="types-container">
         <div class="type">

@@ -1,18 +1,11 @@
-/* Variables de color */
-:root {
-    --color1: #cc2649;
-    --color2: #992c4b;
-    --color3: #66324c;
-    --color4: #33384e;
-    --color5: #003e4f;
-    --hover-color: #b2203f;
-}
+@import './_variables.css';
+@import './components.css';
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--color4);
-    color: white;
+    font-family: var(--font-main);
+    background: var(--color-bg);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
 }

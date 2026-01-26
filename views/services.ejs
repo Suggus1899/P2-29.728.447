@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios - LoveDoc</title>
     <link rel="stylesheet" href="/stylesheets/services.css">
+    <link rel="stylesheet" href="/stylesheets/components.css">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -15,96 +16,29 @@
     </script>
 </head>
 <body>
-    <header>
-        <h1>Servicios de LoveDoc</h1>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/about">Sobre nosotros</a></li>
-                <li><a href="/services">Servicios</a></li>
-                <li><a href="/traductions">Traducciones</a></li>
-                <li><a href="/contact">Contacto</a></li>
-                <li><a href="/payment" class="payment-button">Pago</a></li>
-                <li><a href="/login">Iniciar sesión</a></li>
-                <li><a href="/register">Registrarse</a></li>
-            </ul>
-            <div class="hamburger-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+    <%- include('partials/navbar.ejs') %>
 
     <main>
-        <section class="services-intro">
-            <h2>Servicios disponibles</h2>
-            <p>LoveDoc ofrece una amplia gama de soluciones para traducción profesional y comunicación multilingüe.</p>
+        <section class="services-intro card" style="margin-top:var(--space-lg);">
+            <h2 style="color:var(--color-primary-dark);">¿Qué ofrecemos?</h2>
+            <p style="color:var(--color-text-light); font-size:1.1rem;">En LoveDoc puedes traducir documentos legales, técnicos, académicos y personales con la máxima calidad y confidencialidad.</p>
         </section>
-
-        <!-- Ventajas de nuestros servicios -->
-        <section class="service-advantages">
-            <h2>Ventajas de elegir LoveDoc</h2>
-            <ul>
-                <li>✅ Traducción precisa con IA avanzada.</li>
-                <li>✅ Revisión humana para mayor calidad.</li>
-                <li>✅ Certificación oficial para documentos legales.</li>
-                <li>✅ Adaptación empresarial y técnica.</li>
+        <section class="services-list card">
+            <h2 style="color:var(--color-primary-dark);">Nuestros servicios</h2>
+            <ul style="padding-left:1.2em;">
+                <li>📄 Traducción de documentos PDF, Word, Excel y más</li>
+                <li>🌐 Traducción web y de contenido digital</li>
+                <li>📝 Certificación y revisión profesional</li>
+                <li>🔒 Garantía de privacidad y seguridad</li>
             </ul>
         </section>
-
-        <!-- Tabla comparativa de planes -->
-        <section class="pricing-table">
-            <h2>Comparación de planes</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Automática</th>
-                        <th>Revisión</th>
-                        <th>Certificación</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Traducción estándar</td>
-                        <td>✅</td>
-                        <td>❌</td>
-                        <td>❌</td>
-                    </tr>
-                    <tr>
-                        <td>Traducción legal</td>
-                        <td>✅</td>
-                        <td>✅</td>
-                        <td>✅</td>
-                    </tr>
-                    <tr>
-                        <td>Traducción corporativa</td>
-                        <td>✅</td>
-                        <td>✅</td>
-                        <td>❌</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- Testimonios -->
-        <section class="testimonials">
-            <h2>Lo que dicen nuestros clientes</h2>
-            <div class="testimonial">
-                <p>"LoveDoc me permitió traducir mi contrato de manera certificada y rápida. Excelente servicio."</p>
-                <strong>- Luis Fernández</strong>
-            </div>
-            <div class="testimonial">
-                <p>"La traducción académica fue precisa y bien adaptada. Definitivamente volveré a usar LoveDoc."</p>
-                <strong>- Daniela Gómez</strong>
-            </div>
-        </section>
-
-        <section class="service-contact">
-            <h2>¿Necesitas una solución personalizada?</h2>
-            <p>Contáctanos y te ayudaremos a encontrar la opción ideal para tu proyecto.</p>
-            <a href="/contact" class="button">Solicitar Servicio</a>
+        <section class="services-benefits card">
+            <h2 style="color:var(--color-primary-dark);">¿Por qué elegirnos?</h2>
+            <ul style="padding-left:1.2em;">
+                <li>✔️ Entrega rápida y soporte 24/7</li>
+                <li>✔️ Precios claros y competitivos</li>
+                <li>✔️ Traductores certificados y expertos</li>
+            </ul>
         </section>
     </main>
 

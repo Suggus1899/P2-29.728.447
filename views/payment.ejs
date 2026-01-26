@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pago - LoveDoc</title>
   <link rel="stylesheet" href="/stylesheets/payment.css" />
+  <link rel="stylesheet" href="/stylesheets/components.css" />
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -16,102 +17,71 @@
 </head>
 
 <body>
-  <header>
-    <h1>LoveDoc</h1>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/about">Sobre Nosotros</a></li>
-        <li><a href="/services">Servicios</a></li>
-        <li><a href="/traductions">Traducciones</a></li>
-        <li><a href="/payment">Pago</a></li>
-        <li><a href="/contact">Contacto</a></li>
-        <li><a href="/login">Iniciar sesión</a></li>
-        <li><a href="/register">Registrarse</a></li>
-      </ul>
-    </nav>
-  </header>
+  <%- include('partials/navbar.ejs') %>
 
   <section id="pago" class="payment">
-    <h2>Realiza tu pago</h2>
-    <p>Ingresa tus datos para completar la transacción.</p>
+    <div class="form-container card">
+      <h2 style="text-align:center; color:var(--color-primary-dark);">Realiza tu pago</h2>
+      <p style="text-align:center; color:var(--color-text-light);">Ingresa tus datos para completar la transacción.</p>
 
-    <% if (success) { %>
-      <p class="success">✅ ¡Pago realizado con éxito!</p>
-    <% } %>
+      <% if (success) { %>
+        <div class="alert alert-success">✅ ¡Pago realizado con éxito!</div>
+      <% } %>
 
-    <% if (message && !success && errors.length === 0) { %>
-      <p class="message"><%= message %></p>
-    <% } %>
+      <% if (message && !success && errors.length === 0) { %>
+        <div class="alert alert-success"><%= message %></div>
+      <% } %>
 
-    <% if (errors.length > 0) { %>
-      <ul class="error-list">
-        <% errors.forEach(error => { %>
-          <li class="error-text">⚠ <%= error %></li>
-        <% }); %>
-      </ul>
-    <% } %>
+      <% if (errors.length > 0) { %>
+        <div class="alert alert-error">
+          <ul style="margin:0; padding-left:1.2em;">
+            <% errors.forEach(error => { %>
+              <li>⚠ <%= error %></li>
+            <% }); %>
+          </ul>
+        </div>
+      <% } %>
 
-    <form action="/payment/process" method="POST">
-      <div class="form-group">
+      <form action="/payment/process" method="POST">
         <label for="nombre">Nombre en la tarjeta:</label>
-        <input type="text" id="nombre" name="cardName" value="<%= data.cardName || '' %>" required />
-      </div>
+        <input type="text" id="nombre" name="cardName" class="input" value="<%= data.cardName || '' %>" required />
 
-      <div class="form-group">
         <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" value="<%= data.email || '' %>" required />
-      </div>
+        <input type="email" id="email" name="email" class="input" value="<%= data.email || '' %>" required />
 
-      <div class="form-group">
         <label for="cardNumber">Número de tarjeta:</label>
-        <input type="text" id="cardNumber" name="cardNumber" value="<%= data.cardNumber || '' %>" pattern="\d{13,19}" required />
-      </div>
+        <input type="text" id="cardNumber" name="cardNumber" class="input" value="<%= data.cardNumber || '' %>" pattern="\d{13,19}" required />
 
-      <div class="form-group">
         <label for="expMonth">Fecha de expiración:</label>
-        <select id="expMonth" name="expMonth" required>
-          <option value="">Mes...</option>
-          <% for (let i = 1; i <= 12; i++) { %>
-            <option value="<%= i %>" <%= data.expMonth == i ? 'selected' : '' %>><%= i %></option>
-          <% } %>
-        </select>
-        <select id="expYear" name="expYear" required>
-          <option value="">Año...</option>
-          <% for (let i = new Date().getFullYear(); i <= new Date().getFullYear() + 10; i++) { %>
-            <option value="<%= i %>" <%= data.expYear == i ? 'selected' : '' %>><%= i %></option>
-          <% } %>
-        </select>
-      </div>
+        <div style="display:flex; gap:var(--space-xs);">
+          <select id="expMonth" name="expMonth" class="input" required style="flex:1;">
+            <option value="">Mes...</option>
+            <% for (let i = 1; i <= 12; i++) { %>
+              <option value="<%= i %>" <%= data.expMonth == i ? 'selected' : '' %>><%= i %></option>
+            <% } %>
+          </select>
+          <select id="expYear" name="expYear" class="input" required style="flex:1;">
+            <option value="">Año...</option>
+            <% for (let i = new Date().getFullYear(); i <= new Date().getFullYear() + 10; i++) { %>
+              <option value="<%= i %>" <%= data.expYear == i ? 'selected' : '' %>><%= i %></option>
+            <% } %>
+          </select>
+        </div>
 
-      <div class="form-group">
         <label for="amount">Monto:</label>
-        <input type="number" step="0.01" id="amount" name="amount" value="<%= data.amount || '' %>" required />
-      </div>
+        <input type="number" step="0.01" id="amount" name="amount" class="input" value="<%= data.amount || '' %>" required />
 
-      <div class="form-group">
         <label for="currency">Moneda:</label>
-        <select id="currency" name="currency" required>
+        <select id="currency" name="currency" class="input" required>
           <option value="">Selecciona...</option>
           <option value="USD" <%= data.currency === 'USD' ? 'selected' : '' %>>USD</option>
           <option value="EUR" <%= data.currency === 'EUR' ? 'selected' : '' %>>EUR</option>
           <option value="MXN" <%= data.currency === 'MXN' ? 'selected' : '' %>>MXN</option>
         </select>
-      </div>
 
-      <div class="form-group">
-        <label for="service">Servicio:</label>
-        <select id="service" name="service" required>
-          <option value="">Selecciona un servicio</option>
-          <option value="traduccion" <%= data.service === 'traduccion' ? 'selected' : '' %>>Traducción</option>
-          <option value="asesoria" <%= data.service === 'asesoria' ? 'selected' : '' %>>Asesoría</option>
-        </select>
-      </div>
-
-      <button type="submit" class="button">Pagar</button>
-      <button type="button" class="button" onclick="simularPago()">💡 Simular pago exitoso</button>
-      <a href="/admin/payments" class="button admin-access">💳 Ver pagos registrados</a>
-    </form>
+        <button type="submit" class="btn">Pagar</button>
+      </form>
+    </div>
   </section>
 
   <section class="payment-methods">

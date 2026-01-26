@@ -17,6 +17,7 @@
   <meta name="twitter:description" content="Contáctanos para resolver tus dudas, sugerencias o reportar un problema. LoveDoc responde rápido y en tu idioma." />
   <meta name="twitter:image" content="/public/logo-og.png" />
   <link rel="stylesheet" href="/stylesheets/contact_form.css" />
+  <link rel="stylesheet" href="/stylesheets/components.css" />
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -31,69 +32,50 @@
 </head>
 
 <body>
-  <header>
-    <h1>LoveDoc</h1>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/about">Sobre Nosotros</a></li>
-        <li><a href="/services">Servicios</a></li>
-        <li><a href="/traductions">Traducciones</a></li>
-        <li><a href="/payment">Pago</a></li>
-        <li><a href="/contact">Contacto</a></li>
-        <li><a href="/login">Iniciar sesión</a></li>
-        <li><a href="/register">Registrarse</a></li>
-      </ul>
-    </nav>
-  </header>
+    <%- include('partials/navbar.ejs') %>
 
   <section id="contacto" class="contact">
-    <h2>¡Déjanos tu mensaje!</h2>
+    <div class="form-container card">
+      <h2 style="text-align:center; color:var(--color-primary-dark);">¡Déjanos tu mensaje!</h2>
 
-    <% if (message) { %>
-      <p class="success"><%= message %></p> 
-    <% } %>
+      <% if (message) { %>
+        <div class="alert alert-success"><%= message %></div>
+      <% } %>
 
-    <% if (errors && errors.length > 0) { %>
-      <ul class="error-list">
-        <% errors.forEach(error => { %>
-          <li class="error-text">⚠ <%= error %></li>
-        <% }); %>
-      </ul>
-    <% } %>
+      <% if (errors && errors.length > 0) { %>
+        <div class="alert alert-error">
+          <ul style="margin:0; padding-left:1.2em;">
+            <% errors.forEach(error => { %>
+              <li>⚠ <%= error %></li>
+            <% }); %>
+          </ul>
+        </div>
+      <% } %>
 
-    <form action="/contact/add" method="POST" id="contact-form">
-      <div class="form-group">
+      <form action="/contact/add" method="POST" id="contact-form">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="<%= data?.nombre || '' %>" required />
-      </div>
+        <input type="text" id="nombre" name="nombre" class="input" value="<%= data?.nombre || '' %>" required />
 
-      <div class="form-group">
         <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" value="<%= data?.email || '' %>" required />
-      </div>
+        <input type="email" id="email" name="email" class="input" value="<%= data?.email || '' %>" required />
 
-      <div class="form-group">
         <label for="tipo_mensaje">Tipo de mensaje:</label>
-        <select id="tipo_mensaje" name="tipo_mensaje" required>
+        <select id="tipo_mensaje" name="tipo_mensaje" class="input" required>
           <option value="">Selecciona una opción...</option>
           <option value="consulta" <%= data?.tipo_mensaje === 'consulta' ? 'selected' : '' %>>Consulta</option>
           <option value="sugerencia" <%= data?.tipo_mensaje === 'sugerencia' ? 'selected' : '' %>>Sugerencia</option>
           <option value="error" <%= data?.tipo_mensaje === 'error' ? 'selected' : '' %>>Reporte de error</option>
         </select>
-      </div>
 
-      <div class="form-group">
         <label for="comment">Comentario:</label>
-        <textarea id="comment" name="comment" rows="5" required><%= data?.comment || '' %></textarea>
-      </div>
+        <textarea id="comment" name="comment" class="input" rows="5" required><%= data?.comment || '' %></textarea>
 
-      <!-- 🛡️ Campo oculto para el token de reCAPTCHA v3 -->
-      <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" />
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" />
 
-      <button type="submit" class="button">Enviar Mensaje</button>
-      <a href="/admin/contacts" class="button admin-access">🔧 Ver contactos registrados</a>
-    </form>
+        <button type="submit" class="btn">Enviar Mensaje</button>
+        <a href="/admin/contacts" class="btn" style="background:var(--color-secondary);margin-top:var(--space-xs);">🔧 Ver contactos registrados</a>
+      </form>
+    </div>
   </section>
 
   <footer>
